@@ -7,6 +7,10 @@ import {getSelectionSortAnimationArray} from "../SortingAlgos/selectionSort"
 import {getInsertionSortAnimationArray} from "../SortingAlgos/insertionSort"
 import "./SortingVisualizer.css"
 
+const ANIMATION_SPEED_MS = 1;
+const PRIMARY_COLOR = 'rgb(88, 118, 255)';
+const SECONDARY_COLOR = 'red';
+
 // import 'bootstrap/dist/css/bootstrap.css';
 {/* export default class defines the class we want to have as a tag*/}
 export default class SortingVisualizer extends React.Component {
@@ -93,10 +97,32 @@ export default class SortingVisualizer extends React.Component {
 
     mergeSort() {
         const {array} = this.state;
-        // let check = array.sort((a, b) => a - b);
         let res = getMergeSortAnimationArray(array)
+
+        /** Go through all the animations */
+        for (let i = 0; i < res.length; i++) {
+            const arrayBars = document.getElementsByClassName("arrayBar");
+            const isColorChange = (i % 3 !== 2);
+            if (isColorChange) {
+                const [barOneIdx, barTwoIdx] = res[i];
+                const barOneStyle = arrayBars[barOneIdx].style;
+                const barTwoStyle = arrayBars[barTwoIdx].style;
+                const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
+                setTimeout(() => {
+                  barOneStyle.backgroundColor = color;
+                  barTwoStyle.backgroundColor = color;
+                }, i * ANIMATION_SPEED_MS);
+              } else {
+                setTimeout(() => {
+                  const [barOneIdx, newHeight] = res[i];
+                  const barOneStyle = arrayBars[barOneIdx].style;
+                  barOneStyle.height = `${newHeight}px`;
+                }, i * ANIMATION_SPEED_MS);
+              }
+        }
+        // let check = array.sort((a, b) => a - b);
         // console.log(check.every((value, index) => value === res[index]))
-        this.setState({res})
+        // this.setState({res})
     }
 
     heapSort() {
@@ -126,7 +152,13 @@ export default class SortingVisualizer extends React.Component {
             <div className="arrayContainer">
                 <div className="arrayBars">
                     {array.map((value, index) => (
-                    <div className="arrayBar" key={index} style={{ height: `${value}px` }}></div>
+                    <div className = "arrayBar" 
+                        key={index} 
+                        style={{ 
+                            backgroundColor: PRIMARY_COLOR,
+                            height: `${value}px` 
+                            }}>
+                    </div>
                     ))}
                 </div>
                 <div className="buttons">

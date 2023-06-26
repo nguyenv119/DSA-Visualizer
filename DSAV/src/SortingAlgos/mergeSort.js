@@ -8,8 +8,14 @@
  */
 export function getMergeSortAnimationArray(arr) {
     const animations = [];
-    copy = arr.splice();
+    if (arr.length <= 1) return arr;
+    const copy = arr.slice();
     mergeSort(arr, 0, arr.length - 1, copy, animations)
+
+    let check = arr.slice().sort((a, b) => a - b);
+    console.log(arr)
+    console.log(check.every((value, index) => value === arr[index]))
+
     return animations;
 }
 
@@ -18,23 +24,20 @@ function mergeSort(array, l, r, copy, animations) {
     function merge(mainArr, l, m, r, copy, animations) {
         if (mainArr == null) return null;
     
-        let leftSize = (m - l) + 1;
-        let rightSize = r - m;
-
         let index = l;
-        let i = 0; 
-        let j = 0;
+        let i = l; 
+        let j = m + 1;
     
-        while (i < leftSize && j < rightSize) {
+        while (i <= m && j <= r) {
             /** When we compare two indices, we will
              * change the color of the bars to another color.
              * Then, when we finish, we switch back the colors.
              * That is why we add twice to animations
              */
-            animations.push([i, j])
-            animations.push([i, j])
-
-            if (copy[i] < copy[j]) {
+            animations.push([i, j]);
+            animations.push([i, j]);
+    
+            if (copy[i] <= copy[j]) {
                 /** We have guaranteed that the i'th element
                  * is smaller than the j'th. Therefore we are
                  * replicating the swapping in the mainArray
@@ -51,40 +54,35 @@ function mergeSort(array, l, r, copy, animations) {
                  * readded
                  * 
                  */
-                animations.push([index, copy[i]])
+                animations.push([index, copy[i]]);
                 mainArr[index++] = copy[i++];
             }
             else {
-                animations.push([index, copy[j]])
+                animations.push([index, copy[j]]);
                 mainArr[index++] = copy[j++];
             }
         }
     
-        while (i < leftSize) {
+        while (i <= m) {
             animations.push([i, i]);
             animations.push([i, i]);
-            mainArr[index++] = copy[i++];
+            animations.push([index, copy[i]])
             mainArr[index++] = copy[i++];
         }
-        while (j < rightSize) {
+        while (j <= r) {
             animations.push([j, j]);
             animations.push([j, j]);
-            mainArr[index++] = copy[j++];
+            animations.push([index, copy[j]])
             mainArr[index++] = copy[j++];
         }
-    
-        return mainArr;
     }
 
     if (array == null) return null;
-    if (array.length == 1) return array;
+    if (array.length === 1) return array;
 
-    if (l == r) return;
-    if (l < r) {
-        let m = Math.floor((l + r) / 2);
-        mergeSort(array, l, m, copy, animations);
-        mergeSort(array, m + 1, r, copy, animations);
-        merge(array, l, m, r, copy, animations);
-    }
-    return array
+    if (l === r) return;
+    let m = Math.floor((l + r) / 2);
+    mergeSort(copy, l, m, array, animations);
+    mergeSort(copy, m + 1, r, array, animations);
+    merge(array, l, m, r, copy, animations);
 }
