@@ -28,8 +28,8 @@ export default class SortingAlgos extends React.Component {
  
     makeArray() {
         const array = [];
-        for (let i = 0; i < 100; i++) {
-            array.push(randomIntFrom(5, 1000));
+        for (let i = 0; i < 310; i++) {
+            array.push(randomIntFrom(5, 800));
         }
 
         /** Sets the state to be the created array
@@ -41,16 +41,28 @@ export default class SortingAlgos extends React.Component {
 
     /** Renders components UI */
     render() {
-        /** Gets the state (array we created) */
+        /** Gets the state (array we created) out of the object, 
+         * We need the {}
+        */
         const {array} = this.state;
         return (
-            <>
+            /** Map = go through each num in array, extracting value and index
+             * and making it into a bar:
+             * 
+             * Can put any variable name because when we call array.map, 
+             * 2 parameters are returned: value and index, so the callback function
+             * knows to associate.
+             * 
+             * ref: https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_map3
+             */
+            <div className = "arrayContainer">
                 {array.map((value, index) => (
-                    <div className = "arrayBar" key = {index}>
-                        {value}
+                    <div className = "arrayBar" 
+                        key = {index}
+                        style = {{height: `${value}px`}}>
                     </div>
                 ))}
-            </>
+            </div>
         );
     }
 }
