@@ -29,7 +29,7 @@ export default class SortingAlgos extends React.Component {
     makeArray() {
         const array = [];
         for (let i = 0; i < 310; i++) {
-            array.push(randomIntFrom(5, 800));
+            array.push(randomIntFrom(5, 750));
         }
 
         /** Sets the state to be the created array
@@ -42,7 +42,7 @@ export default class SortingAlgos extends React.Component {
     /** Renders components UI */
     render() {
         /** Gets the state (array we created) out of the object, 
-         * We need the {}
+         * We need the {}, won't work with just array
         */
         const {array} = this.state;
         return (
@@ -55,14 +55,17 @@ export default class SortingAlgos extends React.Component {
              * 
              * ref: https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_map3
              */
-            <div className = "arrayContainer">
-                {array.map((value, index) => (
-                    <div className = "arrayBar" 
-                        key = {index}
-                        style = {{height: `${value}px`}}>
-                    </div>
-                ))}
+            <div className="arrayContainer">
+                <div className="arrayBars">
+                    {array.map((value, index) => (
+                    <div className="arrayBar" key={index} style={{ height: `${value}px` }}></div>
+                    ))}
+                </div>
+                <div className="buttons">
+                    <button onClick={() => this.makeArray()}>Generate New Array</button>
+                </div>
             </div>
+
         );
     }
 }
