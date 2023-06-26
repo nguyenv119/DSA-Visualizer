@@ -1,6 +1,11 @@
 import React from "react";
+import {getMergeSortAnimationArray} from "../SortingAlgos/mergeSort"
+import {getBubbleSortAnimationArray} from "../SortingAlgos/bubbleSort"
+import {getHeapSortAnimationArray} from "../SortingAlgos/heapSort"
+import {getQuickSortAnimationArray} from "../SortingAlgos/quickSort"
+import {getSelectionSortAnimationArray} from "../SortingAlgos/selectionSort"
+import {getInsertionSortAnimationArray} from "../SortingAlgos/insertionSort"
 import "./SortingVisualizer.css"
-import {bubbleSortExp, selectionSortExp, insertionSortExp, quickSortExp, mergeSortExp, heapSortExp} from "../SortingAlgos/SortingAlgos.jsx"
 
 // import 'bootstrap/dist/css/bootstrap.css';
 {/* export default class defines the class we want to have as a tag*/}
@@ -31,7 +36,7 @@ export default class SortingVisualizer extends React.Component {
     makeArray() {
         const array = [];
         for (let i = 0; i < 310; i++) {
-            array.push(randomIntFrom(5, 750));
+            array.push(randomIntFrom(5, 765));
         }
 
         /** Sets the state to be the created array
@@ -50,8 +55,8 @@ export default class SortingVisualizer extends React.Component {
          * If a - b > 0, then a should be after b
          * If a - b = 0, don't swap
          */
-        let check = array.sort((a, b) => a - b);
-        let res = bubbleSortExp(array);
+        // let check = array.sort((a, b) => a - b);
+        let res = getBubbleSortAnimationArray(array);
 
         /** Checks the JSX sorted array with our sorted array:
          * 
@@ -59,51 +64,47 @@ export default class SortingVisualizer extends React.Component {
          * JSX array is the same as the index of our sorted array
          */
         this.setState({res})
-        console.log(check.every((value, index) => value === res[index]));
+        // console.log(check.every((value, index) => value === res[index]));
     }
 
     selectionSort() {
         const {array} = this.state;
-        let check = array.sort((a, b) => a - b);
-        let res = selectionSortExp(array)
+        // let check = array.sort((a, b) => a - b);
+        let res = getSelectionSortAnimationArray(array)
         this.setState({res})
-        console.log(check.every((value, index) => value === res[index]))
+        // console.log(check.every((value, index) => value === res[index]))
     }
 
     insertionSort() {
         const {array} = this.state;
-        let check = array.sort((a, b) => a - b);
-        let res = insertionSortExp(array)
+        // let check = array.sort((a, b) => a - b);
+        let res = getInsertionSortAnimationArray(array)
         this.setState({res})
-        console.log(check.every((value, index) => value === res[index]))
+        // console.log(check.every((value, index) => value === res[index]))
     }
 
     quickSort() {
         const {array} = this.state;
-        let check = array.sort((a, b) => a - b);
-        let res = quickSortExp(array)
-        console.log({check})
-        console.log({res})
+        // let check = array.sort((a, b) => a - b);
+        let res = getQuickSortAnimationArray(array)
         this.setState({res})
-        console.log(check.every((value, index) => value === res[index]))
+        // console.log(check.every((value, index) => value === res[index]))
     }
 
     mergeSort() {
         const {array} = this.state;
-        let check = array.sort((a, b) => a - b);
-        let res = mergeSortExp(array, 0, array.length - 1)
-        console.log({check})
-        console.log({res})
-        console.log(check.every((value, index) => value === res[index]))
+        // let check = array.sort((a, b) => a - b);
+        let res = getMergeSortAnimationArray(array)
+        // console.log(check.every((value, index) => value === res[index]))
         this.setState({res})
     }
 
     heapSort() {
         const {array} = this.state;
         let check = array.sort((a, b) => a - b);
-        let res = heapSortExp(array, 0, array.length - 1)
+        let res = getHeapSortAnimationArray(array)
         this.setState({res})
-        console.log(check.every((value, index) => value === res[index]))
+        // console.log(check.every((value, index) => value === res[index]))
     }
 
     /** Renders components UI */
