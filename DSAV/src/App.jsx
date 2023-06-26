@@ -1,13 +1,14 @@
 import React from "react";
-import SortingAlgos from "./SortingAlgos/SortingAlgos";
+import SortingVisualizer from "./SortingVisualizer/SortingVisualizer";
+// import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
 function App() {
   return (
     <div className = "App">
-      <SortingAlgos> 
+      <SortingVisualizer> 
 
-      </SortingAlgos>
+      </SortingVisualizer>
     </div>
   );
 }
