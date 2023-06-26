@@ -58,6 +58,7 @@ export default class SortingVisualizer extends React.Component {
          * Goes through every value and index and checks if the value of the 
          * JSX array is the same as the index of our sorted array
          */
+        this.setState({res})
         console.log(check.every((value, index) => value === res[index]));
     }
 
@@ -65,6 +66,7 @@ export default class SortingVisualizer extends React.Component {
         const {array} = this.state;
         let check = array.sort((a, b) => a - b);
         let res = selectionSortExp(array)
+        this.setState({res})
         console.log(check.every((value, index) => value === res[index]))
     }
 
@@ -72,6 +74,7 @@ export default class SortingVisualizer extends React.Component {
         const {array} = this.state;
         let check = array.sort((a, b) => a - b);
         let res = insertionSortExp(array)
+        this.setState({res})
         console.log(check.every((value, index) => value === res[index]))
     }
 
@@ -79,20 +82,27 @@ export default class SortingVisualizer extends React.Component {
         const {array} = this.state;
         let check = array.sort((a, b) => a - b);
         let res = quickSortExp(array)
+        console.log({check})
+        console.log({res})
+        this.setState({res})
         console.log(check.every((value, index) => value === res[index]))
     }
 
     mergeSort() {
         const {array} = this.state;
         let check = array.sort((a, b) => a - b);
-        let res = mergeSortExp(array)
+        let res = mergeSortExp(array, 0, array.length - 1)
+        console.log({check})
+        console.log({res})
         console.log(check.every((value, index) => value === res[index]))
+        this.setState({res})
     }
 
     heapSort() {
         const {array} = this.state;
         let check = array.sort((a, b) => a - b);
-        let res = heapSortExp(array)
+        let res = heapSortExp(array, 0, array.length - 1)
+        this.setState({res})
         console.log(check.every((value, index) => value === res[index]))
     }
 
