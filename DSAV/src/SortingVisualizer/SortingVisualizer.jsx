@@ -43,32 +43,57 @@ export default class SortingVisualizer extends React.Component {
 
     bubbleSort() {
         const {array} = this.state;
-        bubbleSortExp(array)
+
+        /** Sorts the array in the order of a, b: 
+         * 
+         * If a - b < 0, then a should be before b
+         * If a - b > 0, then a should be after b
+         * If a - b = 0, don't swap
+         */
+        let check = array.sort((a, b) => a - b);
+        let res = bubbleSortExp(array);
+
+        /** Checks the JSX sorted array with our sorted array:
+         * 
+         * Goes through every value and index and checks if the value of the 
+         * JSX array is the same as the index of our sorted array
+         */
+        console.log(check.every((value, index) => value === res[index]));
     }
 
     selectionSort() {
         const {array} = this.state;
-        selectionSortExp(array)
+        let check = array.sort((a, b) => a - b);
+        let res = selectionSortExp(array)
+        console.log(check.every((value, index) => value === res[index]))
     }
 
     insertionSort() {
         const {array} = this.state;
-        insertionSortExp(array)
+        let check = array.sort((a, b) => a - b);
+        let res = insertionSortExp(array)
+        console.log(check.every((value, index) => value === res[index]))
     }
 
     quickSort() {
         const {array} = this.state;
-        quickSortExp(array)
+        let check = array.sort((a, b) => a - b);
+        let res = quickSortExp(array)
+        console.log(check.every((value, index) => value === res[index]))
     }
 
     mergeSort() {
         const {array} = this.state;
-        mergeSortExp(array)
+        let check = array.sort((a, b) => a - b);
+        let res = mergeSortExp(array)
+        console.log(check.every((value, index) => value === res[index]))
     }
 
     heapSort() {
         const {array} = this.state;
-        heapSortExp(array)
+        let check = array.sort((a, b) => a - b);
+        let res = heapSortExp(array)
+        console.log(check.every((value, index) => value === res[index]))
     }
 
     /** Renders components UI */
