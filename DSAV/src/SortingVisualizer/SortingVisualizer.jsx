@@ -7,9 +7,13 @@ import {getSelectionSortAnimationArray} from "../SortingAlgos/selectionSort"
 import {getInsertionSortAnimationArray} from "../SortingAlgos/insertionSort"
 import "./SortingVisualizer.css"
 
+const MINVAL = 5;
+const MAXVAL = 730;
 const ANIMATION_SPEED_MS = 1;
+const GREEN_SPEED = 3;
 const PRIMARY_COLOR = 'rgb(88, 118, 255)';
 const SECONDARY_COLOR = 'red';
+const BARS = 310;
 
 // import 'bootstrap/dist/css/bootstrap.css';
 {/* export default class defines the class we want to have as a tag*/}
@@ -26,6 +30,9 @@ export default class SortingVisualizer extends React.Component {
         /** Init the initial state of component */
         this.state = {
             array: [],
+            isSorting: false,
+            paused: false,
+            buttonsDisabled: false,
         };
     };
 
@@ -39,18 +46,27 @@ export default class SortingVisualizer extends React.Component {
  
     makeArray() {
         const array = [];
-        for (let i = 0; i < 310; i++) {
-            array.push(randomIntFrom(5, 765));
+        for (let i = 0; i < BARS; i++) {
+            array.push(randomIntFrom(MINVAL, MAXVAL));
         }
 
         /** Sets the state to be the created array
          * If we didnt have setState, we wouldnt
          * update the array we created
          */
-        this.setState({array})
+        this.setState({ array }, () => {
+
+            /** Resets the color of array back to PRIMARY */
+            const arrayBars = document.getElementsByClassName("arrayBar");
+            for (let i = 0; i < arrayBars.length; i++) {
+                arrayBars[i].style.backgroundColor = PRIMARY_COLOR;
+            }
+        });
+        
     }
 
     bubbleSort() {
+        this.setState({ buttonsDisabled: true, isSorting: true });
         const {array} = this.state;
 
         /** Sorts the array in the order of a, b: 
@@ -72,6 +88,7 @@ export default class SortingVisualizer extends React.Component {
     }
 
     selectionSort() {
+        this.setState({ buttonsDisabled: true, isSorting: true });
         const {array} = this.state;
         // let check = array.sort((a, b) => a - b);
         let res = getSelectionSortAnimationArray(array)
@@ -80,6 +97,7 @@ export default class SortingVisualizer extends React.Component {
     }
 
     insertionSort() {
+        this.setState({ buttonsDisabled: true, isSorting: true });
         const {array} = this.state;
         // let check = array.sort((a, b) => a - b);
         let res = getInsertionSortAnimationArray(array)
@@ -88,6 +106,7 @@ export default class SortingVisualizer extends React.Component {
     }
 
     quickSort() {
+        this.setState({ buttonsDisabled: true, isSorting: true });
         const {array} = this.state;
         // let check = array.sort((a, b) => a - b);
         let res = getQuickSortAnimationArray(array)
@@ -96,36 +115,75 @@ export default class SortingVisualizer extends React.Component {
     }
 
     mergeSort() {
-        const {array} = this.state;
-        let res = getMergeSortAnimationArray(array)
-
+        this.setState({ buttonsDisabled: true, isSorting: true });
+        const { array } = this.state;
+        const res = getMergeSortAnimationArray(array);
+        const arrayBars = document.getElementsByClassName("arrayBar");
+        let completedAnimations = 0;
+      
+        /** Reset array bar colors */
+        for (let i = 0; i < arrayBars.length; i++) {
+          arrayBars[i].style.backgroundColor = PRIMARY_COLOR;
+        }
+      
         /** Go through all the animations */
         for (let i = 0; i < res.length; i++) {
-            const arrayBars = document.getElementsByClassName("arrayBar");
-            const isColorChange = (i % 3 !== 2);
-            if (isColorChange) {
-                const [barOneIdx, barTwoIdx] = res[i];
-                const barOneStyle = arrayBars[barOneIdx].style;
-                const barTwoStyle = arrayBars[barTwoIdx].style;
-                const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
-                setTimeout(() => {
-                  barOneStyle.backgroundColor = color;
-                  barTwoStyle.backgroundColor = color;
-                }, i * ANIMATION_SPEED_MS);
-              } else {
-                setTimeout(() => {
-                  const [barOneIdx, newHeight] = res[i];
-                  const barOneStyle = arrayBars[barOneIdx].style;
-                  barOneStyle.height = `${newHeight}px`;
-                }, i * ANIMATION_SPEED_MS);
+          const isColorChange = i % 3 !== 2;
+      
+          if (isColorChange) {
+            const [barOneIdx, barTwoIdx] = res[i];
+            const barOneStyle = arrayBars[barOneIdx].style;
+            const barTwoStyle = arrayBars[barTwoIdx].style;
+            const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
+      
+            setTimeout(() => {
+              barOneStyle.backgroundColor = color;
+              barTwoStyle.backgroundColor = color;
+              completedAnimations++;
+      
+              if (completedAnimations === res.length) {
+                /** All animations completed, now gradually turn bars green 
+                By incrementing the greenIndex each time we make a bar green, 
+                we can see when we reach the end
+                */
+                let greenIndex = 0;
+                const greenInterval = setInterval(() => {
+                  arrayBars[greenIndex].style.backgroundColor = "limegreen";
+                  greenIndex++;
+      
+                  if (greenIndex === arrayBars.length) {
+                    clearInterval(greenInterval);
+                    this.setState({ buttonsDisabled: false, isSorting: false });
+                  }
+                }, GREEN_SPEED);
               }
+            }, i * ANIMATION_SPEED_MS);
+          } else {
+            setTimeout(() => {
+              const [barOneIdx, newHeight] = res[i];
+              const barOneStyle = arrayBars[barOneIdx].style;
+              barOneStyle.height = `${newHeight}px`;
+              completedAnimations++;
+      
+              if (completedAnimations === res.length) {
+                let greenIndex = 0;
+                const greenInterval = setInterval(() => {
+                  arrayBars[greenIndex].style.backgroundColor = "limegreen";
+                  greenIndex++;
+      
+                  if (greenIndex === arrayBars.length) {
+                    clearInterval(greenInterval);
+                    this.setState({ buttonsDisabled: false, isSorting: false });
+                  }
+                }, GREEN_SPEED);
+              }
+            }, i * ANIMATION_SPEED_MS);
+          }
         }
-        // let check = array.sort((a, b) => a - b);
-        // console.log(check.every((value, index) => value === res[index]))
-        // this.setState({res})
-    }
+      }
 
     heapSort() {
+        this.setState({ buttonsDisabled: true, isSorting: true });
         const {array} = this.state;
         let check = array.sort((a, b) => a - b);
         let res = getHeapSortAnimationArray(array)
@@ -133,12 +191,18 @@ export default class SortingVisualizer extends React.Component {
         // console.log(check.every((value, index) => value === res[index]))
     }
 
+    toggleSorting() {
+        this.setState(prevState => ({
+          paused: !prevState.paused
+        }));
+      }
+
     /** Renders components UI */
     render() {
         /** Gets the state (array we created) out of the object, 
          * We need the {}, won't work with just array
         */
-        const {array} = this.state;
+        const {array, buttonsDisabled, isSorting} = this.state;
         return (
             /** Map = go through each num in array, extracting value and index
              * and making it into a bar:
@@ -150,6 +214,18 @@ export default class SortingVisualizer extends React.Component {
              * ref: https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_map3
              */
             <div className="arrayContainer">
+                <div className="buttons">
+                    <button onClick={() => this.makeArray()} disabled={isSorting}>Generate New Array</button>
+                    <button onClick={() => this.bubbleSort()} disabled={buttonsDisabled}>Bubble Sort</button>
+                    <button onClick={() => this.selectionSort()} disabled={buttonsDisabled}>Selection Sort</button>
+                    <button onClick={() => this.insertionSort()} disabled={buttonsDisabled}>Insertion Sort</button>
+                    <button onClick={() => this.quickSort()} disabled={buttonsDisabled}>Quick Sort</button>
+                    <button onClick={() => this.mergeSort()} disabled={buttonsDisabled}>Merge Sort</button>
+                    <button onClick={() => this.heapSort()} disabled={buttonsDisabled}>Heap Sort</button>
+                    <button onClick={() => this.toggleSorting()} disabled={isSorting}>
+                        {this.state.isSorting ? "Pause" : "Resume"}
+                    </button>
+                </div>
                 <div className="arrayBars">
                     {array.map((value, index) => (
                     <div className = "arrayBar" 
@@ -160,15 +236,6 @@ export default class SortingVisualizer extends React.Component {
                             }}>
                     </div>
                     ))}
-                </div>
-                <div className="buttons">
-                    <button onClick={() => this.makeArray()}>Generate New Array</button>
-                    <button onClick={() => this.bubbleSort()}>Bubble Sort</button>
-                    <button onClick={() => this.selectionSort()}>Selection Sort</button>
-                    <button onClick={() => this.insertionSort()}>Insertion Sort</button>
-                    <button onClick={() => this.quickSort()}>Quick Sort</button>
-                    <button onClick={() => this.mergeSort()}>Merge Sort</button>
-                    <button onClick={() => this.heapSort()}>Heap Sort</button>
                 </div>
             </div>
         );

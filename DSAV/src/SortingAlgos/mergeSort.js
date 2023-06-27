@@ -12,9 +12,9 @@ export function getMergeSortAnimationArray(arr) {
     const copy = arr.slice();
     mergeSort(arr, 0, arr.length - 1, copy, animations)
 
-    let check = arr.slice().sort((a, b) => a - b);
-    console.log(arr)
-    console.log(check.every((value, index) => value === arr[index]))
+    // let check = arr.slice().sort((a, b) => a - b);
+    // console.log(arr)
+    // console.log(check.every((value, index) => value === arr[index]))
 
     return animations;
 }
