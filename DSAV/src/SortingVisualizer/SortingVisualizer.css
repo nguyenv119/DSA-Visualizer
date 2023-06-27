@@ -37,5 +37,18 @@
 }
 
 .buttons {
-    margin: -20px 0 15px 0;
+    margin: -20px 0 15px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    width: 1240px
+}
+
+.buttonLeft {
+    width: 92%;
+}
+
+.buttonRight {
+    width: 8%;
 }

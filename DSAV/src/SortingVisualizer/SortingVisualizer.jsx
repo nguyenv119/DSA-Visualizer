@@ -214,17 +214,21 @@ export default class SortingVisualizer extends React.Component {
              * ref: https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_map3
              */
             <div className="arrayContainer">
-                <div className="buttons">
-                    <button onClick={() => this.makeArray()} disabled={isSorting}>Generate New Array</button>
-                    <button onClick={() => this.bubbleSort()} disabled={buttonsDisabled}>Bubble Sort</button>
-                    <button onClick={() => this.selectionSort()} disabled={buttonsDisabled}>Selection Sort</button>
-                    <button onClick={() => this.insertionSort()} disabled={buttonsDisabled}>Insertion Sort</button>
-                    <button onClick={() => this.quickSort()} disabled={buttonsDisabled}>Quick Sort</button>
-                    <button onClick={() => this.mergeSort()} disabled={buttonsDisabled}>Merge Sort</button>
-                    <button onClick={() => this.heapSort()} disabled={buttonsDisabled}>Heap Sort</button>
-                    <button onClick={() => this.toggleSorting()} disabled={isSorting}>
-                        {this.state.isSorting ? "Pause" : "Resume"}
-                    </button>
+                <div className = "buttons">
+                    <div className="buttonLeft">
+                        <button onClick={() => this.makeArray()} disabled={isSorting}>Generate New Array</button>
+                        <button onClick={() => this.bubbleSort()} disabled={buttonsDisabled}>Bubble Sort</button>
+                        <button onClick={() => this.selectionSort()} disabled={buttonsDisabled}>Selection Sort</button>
+                        <button onClick={() => this.insertionSort()} disabled={buttonsDisabled}>Insertion Sort</button>
+                        <button onClick={() => this.quickSort()} disabled={buttonsDisabled}>Quick Sort</button>
+                        <button onClick={() => this.mergeSort()} disabled={buttonsDisabled}>Merge Sort</button>
+                        <button onClick={() => this.heapSort()} disabled={buttonsDisabled}>Heap Sort</button>
+                    </div>
+                    <div className="buttonRight">
+                        <button onClick={() => this.toggleSorting()} disabled={isSorting}>
+                            {this.state.isSorting ? "Pause" : "Resume"}
+                        </button>
+                    </div>
                 </div>
                 <div className="arrayBars">
                     {array.map((value, index) => (
