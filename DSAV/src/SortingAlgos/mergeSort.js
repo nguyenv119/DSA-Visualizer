@@ -11,11 +11,6 @@ export function getMergeSortAnimationArray(arr) {
     if (arr.length <= 1) return arr;
     const copy = arr.slice();
     mergeSort(arr, 0, arr.length - 1, copy, animations)
-
-    // let check = arr.slice().sort((a, b) => a - b);
-    // console.log(arr)
-    // console.log(check.every((value, index) => value === arr[index]))
-
     return animations;
 }
 
@@ -35,7 +30,7 @@ function mergeSort(array, l, r, copy, animations) {
              * That is why we add twice to animations
              */
             animations.push([i, j]);
-            animations.push([i, j]);
+            // animations.push([i, j]);
     
             if (copy[i] <= copy[j]) {
                 /** We have guaranteed that the i'th element
@@ -54,10 +49,14 @@ function mergeSort(array, l, r, copy, animations) {
                  * readded
                  * 
                  */
+                animations.push([i, j]);
+                animations.push([copy[i], copy[j]]);
                 animations.push([index, copy[i]]);
                 mainArr[index++] = copy[i++];
             }
             else {
+                animations.push([j, i]);
+                animations.push([copy[j], copy[i]]);
                 animations.push([index, copy[j]]);
                 mainArr[index++] = copy[j++];
             }
@@ -65,13 +64,17 @@ function mergeSort(array, l, r, copy, animations) {
     
         while (i <= m) {
             animations.push([i, i]);
+            // animations.push([i, i]);
             animations.push([i, i]);
+            animations.push([copy[i], copy[i]]);
             animations.push([index, copy[i]])
             mainArr[index++] = copy[i++];
         }
         while (j <= r) {
             animations.push([j, j]);
+            // animations.push([j, j]);
             animations.push([j, j]);
+            animations.push([copy[j], copy[j]]);
             animations.push([index, copy[j]])
             mainArr[index++] = copy[j++];
         }
