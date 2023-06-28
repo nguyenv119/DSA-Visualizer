@@ -26,12 +26,8 @@ function mergeSort(array, l, r, copy, animations) {
         while (i <= m && j <= r) {
             /** When we compare two indices, we will
              * change the color of the bars to another color.
-             * Then, when we finish, we switch back the colors.
-             * That is why we add twice to animations
              */
-            animations.push([i, j]);
-            // animations.push([i, j]);
-    
+            animations.push([i, j]);    
             if (copy[i] <= copy[j]) {
                 /** We have guaranteed that the i'th element
                  * is smaller than the j'th. Therefore we are
@@ -64,7 +60,6 @@ function mergeSort(array, l, r, copy, animations) {
     
         while (i <= m) {
             animations.push([i, i]);
-            // animations.push([i, i]);
             animations.push([i, i]);
             animations.push([copy[i], copy[i]]);
             animations.push([index, copy[i]])
@@ -72,7 +67,6 @@ function mergeSort(array, l, r, copy, animations) {
         }
         while (j <= r) {
             animations.push([j, j]);
-            // animations.push([j, j]);
             animations.push([j, j]);
             animations.push([copy[j], copy[j]]);
             animations.push([index, copy[j]])
