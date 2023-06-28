@@ -9,9 +9,10 @@ import { ANIMATION_SPEED_MS,
 
 /** The mergeSort function we are exporting with the animation array */
 export function mergeSortExp(array, arrayBars) {
+    resetColors(arrayBars, PRIMARY_COLOR);        
     const res = getMergeSortAnimationArray(array.slice());
-    resetColors();        
     animate(res, arrayBars, 0);
+    return res;
 }
 
 /**

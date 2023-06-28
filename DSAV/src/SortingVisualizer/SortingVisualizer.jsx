@@ -10,7 +10,7 @@ import "./SortingVisualizer.css"
 const MINVAL = 5;
 const MAXVAL = 730;
 const BARS = 308;
-export const ANIMATION_SPEED_MS = 1;
+export const ANIMATION_SPEED_MS = 0.5;
 export const GREEN_SPEED = 1;
 export const PRIMARY_COLOR = 'rgba(69, 85, 255, 0.87)';
 export const SECONDARY_COLOR = 'orange';
@@ -111,8 +111,11 @@ export default class SortingVisualizer extends React.Component {
         this.setState({ buttonsDisabled: true, isSorting: true });
         const { array } = this.state;
         const arrayBars = document.getElementsByClassName("arrayBar");
-        mergeSortExp(array, arrayBars)
-        this.setState({ buttonsDisabled: false, isSorting: false });
+        let res = mergeSortExp(array, arrayBars)
+
+        setTimeout(() => {
+            this.setState({ buttonsDisabled: false, isSorting: false });
+        }, (res.length * 1.3) * ANIMATION_SPEED_MS);
       }
 
     heapSort() {

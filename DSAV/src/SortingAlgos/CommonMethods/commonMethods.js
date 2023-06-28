@@ -1,8 +1,7 @@
 import { GREEN_SPEED, SMALLER_COLOR } from "../../SortingVisualizer/SortingVisualizer";
 
 /** Resets the color of the array before sorting back to PRIMARY */
-export function resetColors(PRIMARY_COLOR) {
-    const arrayBars = document.getElementsByClassName("arrayBar");
+export function resetColors(arrayBars, PRIMARY_COLOR) {
     for (let i = 0; i < arrayBars.length; i++) {
         arrayBars[i].style.backgroundColor = PRIMARY_COLOR;
       }
