@@ -1,22 +1,23 @@
 import React from "react";
-import {getMergeSortAnimationArray} from "../SortingAlgos/mergeSort"
-import {getBubbleSortAnimationArray} from "../SortingAlgos/bubbleSort"
-import {getHeapSortAnimationArray} from "../SortingAlgos/heapSort"
-import {getQuickSortAnimationArray} from "../SortingAlgos/quickSort"
-import {getSelectionSortAnimationArray} from "../SortingAlgos/selectionSort"
-import {getInsertionSortAnimationArray} from "../SortingAlgos/insertionSort"
+import {mergeSortExp} from "../SortingAlgos/mergeSort"
+// import {BubbleSortExp} from "../SortingAlgos/bubbleSort"
+// import {HeapSortExp} from "../SortingAlgos/heapSort"
+// import {QuickSortExp} from "../SortingAlgos/quickSort"
+// import {SelectionSortExp} from "../SortingAlgos/selectionSort"
+// import {InsertionSortExp} from "../SortingAlgos/insertionSort"
 import "./SortingVisualizer.css"
 
 const MINVAL = 5;
 const MAXVAL = 730;
-const ANIMATION_SPEED_MS = 2;
-const GREEN_SPEED = 1;
-const PRIMARY_COLOR = 'rgb(88, 118, 255)';
-const SECONDARY_COLOR = 'orange';
-const LARGER_COLOR = "red";
-const SMALLER_COLOR = "limegreen"
-const SAMESIZE_COLOR = "yellow";
-const BARS = 310;
+const BARS = 308;
+export const ANIMATION_SPEED_MS = 1;
+export const GREEN_SPEED = 1;
+export const PRIMARY_COLOR = 'rgba(69, 85, 255, 0.87)';
+export const SECONDARY_COLOR = 'orange';
+export const LARGER_COLOR = "red";
+export const SMALLER_COLOR = "limegreen"
+export const SAMESIZE_COLOR = "yellow";
+export const DONE_COLOR = "rgba(255, 0, 238, 0.87)";
 
 // import 'bootstrap/dist/css/bootstrap.css';
 {/* export default class defines the class we want to have as a tag*/}
@@ -110,10 +111,7 @@ export default class SortingVisualizer extends React.Component {
         this.setState({ buttonsDisabled: true, isSorting: true });
         const { array } = this.state;
         const arrayBars = document.getElementsByClassName("arrayBar");
-        const res = getMergeSortAnimationArray(array.slice());
-
-        this.resetColors();        
-        this.animate(res, arrayBars, 0);
+        mergeSortExp(array, arrayBars)
       }
 
     heapSort() {
@@ -130,103 +128,7 @@ export default class SortingVisualizer extends React.Component {
           paused: !prevState.paused
         }));
     }
-    
-    /** Resets the color of the array before sorting back to PRIMARY */
-    resetColors() {
-        const arrayBars = document.getElementsByClassName("arrayBar");
-        for (let i = 0; i < arrayBars.length; i++) {
-            arrayBars[i].style.backgroundColor = PRIMARY_COLOR;
-          }
-    }
-
-    /** Animates the array sorting 
-     * 0: initial compare
-     * 1: indexSmall, indexLarge
-     * 2: indexSmallValue, indexLargeValue
-     * 3: replace index with heights
-    */
-    animate(res, arrayBars, completedAnimations) {
-        for (let i = 0; i < res.length; i++) {
-            const stage = i % 4;
-            
-            if (stage === 0) {
-              const [barOneIdx, barTwoIdx] = res[i];
-              const barOneStyle = arrayBars[barOneIdx].style;
-              const barTwoStyle = arrayBars[barTwoIdx].style;        
-              setTimeout(() => {
-                barOneStyle.backgroundColor = SECONDARY_COLOR;
-                barTwoStyle.backgroundColor = SECONDARY_COLOR;
-                completedAnimations += 2;
-                this.checkGreen(completedAnimations, res, arrayBars);
-              }, (i) * ANIMATION_SPEED_MS);
-
-              setTimeout(() => {
-                barOneStyle.backgroundColor = PRIMARY_COLOR;
-                barTwoStyle.backgroundColor = PRIMARY_COLOR;
-                this.checkGreen(completedAnimations, res, arrayBars);
-            }, (i + 1) * ANIMATION_SPEED_MS);
-            } 
-            else if (stage === 2) {
-                const [indexSmall, indexLarge] = res[i - 1];
-                const [smallBar, largeBar] = res[i];
-                const smallBarStyle = arrayBars[indexSmall].style;
-                const largeBarStyle = arrayBars[indexLarge].style;
-                if (indexSmall !== indexLarge) {
-                    setTimeout(() => {
-                        if (smallBar === largeBar) {
-                            smallBarStyle.backgroundColor = SAMESIZE_COLOR;
-                            largeBarStyle.backgroundColor = SAMESIZE_COLOR;
-                        }
-                        else {
-                            smallBarStyle.backgroundColor = SMALLER_COLOR;
-                            largeBarStyle.backgroundColor = LARGER_COLOR;
-                        }
-                    }, (i) * ANIMATION_SPEED_MS);
-                    setTimeout(() => {
-                        smallBarStyle.backgroundColor = PRIMARY_COLOR;
-                        largeBarStyle.backgroundColor = PRIMARY_COLOR;
-                    }, (i + 1) * ANIMATION_SPEED_MS);
-                }
-                completedAnimations += 1;
-            } 
-            else if (stage === 3) {
-                const [barOneIdx, newHeight] = res[i];
-                const barOneStyle = arrayBars[barOneIdx].style;
-                setTimeout(() => {
-                    barOneStyle.height = `${newHeight}px`;
-                    barOneStyle.backgroundColor = "purple";
-                    completedAnimations++;
-                    this.checkGreen(completedAnimations, res, arrayBars);
-                }, i * ANIMATION_SPEED_MS);
-                setTimeout(() => {
-                    barOneStyle.backgroundColor = PRIMARY_COLOR;
-                    largeBarStyle.backgroundColor = PRIMARY_COLOR;
-                    this.checkGreen(completedAnimations, res, arrayBars);
-                }, (i + 1) * ANIMATION_SPEED_MS);
-            }
-          }
-    }
-
-    /** Checks and changes the arrayBars to green if sorted. 
-     * All animations completed, now gradually turn bars green 
-     * By incrementing the greenIndex each time we make a bar green, 
-     * we can see when we reach the end
-    */
-    checkGreen(completedAnimations, res, arrayBars) {
-        if (completedAnimations === res.length) {
-            let greenIndex = 0;
-            const greenInterval = setInterval(() => {
-              arrayBars[greenIndex].style.backgroundColor = SMALLER_COLOR;
-              greenIndex++;
-  
-              if (greenIndex === arrayBars.length) {
-                clearInterval(greenInterval);
-                this.setState({ buttonsDisabled: false, isSorting: false });
-              }
-            }, GREEN_SPEED);
-        }
-    }
-    
+        
     /** Renders components UI */
     render() {
         /** Gets the state (array we created) out of the object, 

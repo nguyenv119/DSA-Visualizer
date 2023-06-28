@@ -1,3 +1,19 @@
+import {resetColors, checkGreen} from "../SortingAlgos/CommonMethods/commonMethods";
+import { ANIMATION_SPEED_MS, 
+        PRIMARY_COLOR,
+        SECONDARY_COLOR,
+        LARGER_COLOR,
+        SMALLER_COLOR,
+        SAMESIZE_COLOR,
+        DONE_COLOR } from "../SortingVisualizer/SortingVisualizer";
+
+/** The mergeSort function we are exporting with the animation array */
+export function mergeSortExp(array, arrayBars) {
+    const res = getMergeSortAnimationArray(array.slice());
+    resetColors();        
+    animate(res, arrayBars, 0);
+}
+
 /**
  * The idea of the animations array is that some indices will have
  * arrays of [index, indexOther], while some will have [index, value].
@@ -6,7 +22,7 @@
  * not necesarilly swapping values yet: the former. When we swap values, 
  * the latter is used
  */
-export function getMergeSortAnimationArray(arr) {
+function getMergeSortAnimationArray(arr) {
     const animations = [];
     if (arr.length <= 1) return arr;
     const copy = arr.slice();
@@ -14,6 +30,7 @@ export function getMergeSortAnimationArray(arr) {
     return animations;
 }
 
+/** The actual merge sort function */
 function mergeSort(array, l, r, copy, animations) {
 
     function merge(mainArr, l, m, r, copy, animations) {
@@ -83,3 +100,71 @@ function mergeSort(array, l, r, copy, animations) {
     mergeSort(copy, m + 1, r, array, animations);
     merge(array, l, m, r, copy, animations);
 }
+
+/** Animates the array sorting 
+ * 0: initial compare
+ * 1: indexSmall, indexLarge
+ * 2: indexSmallValue, indexLargeValue
+ * 3: replace index with heights
+*/
+function animate(res, arrayBars, completedAnimations) {
+        for (let i = 0; i < res.length; i++) {
+            const stage = i % 4;
+            
+            if (stage === 0) {
+              const [barOneIdx, barTwoIdx] = res[i];
+              const barOneStyle = arrayBars[barOneIdx].style;
+              const barTwoStyle = arrayBars[barTwoIdx].style;        
+              setTimeout(() => {
+                barOneStyle.backgroundColor = SECONDARY_COLOR;
+                barTwoStyle.backgroundColor = SECONDARY_COLOR;
+                completedAnimations += 2;
+                checkGreen(completedAnimations, res, arrayBars);
+              }, (i) * ANIMATION_SPEED_MS);
+
+              setTimeout(() => {
+                barOneStyle.backgroundColor = PRIMARY_COLOR;
+                barTwoStyle.backgroundColor = PRIMARY_COLOR;
+                checkGreen(completedAnimations, res, arrayBars);
+            }, (i + 1) * ANIMATION_SPEED_MS);
+            } 
+            else if (stage === 2) {
+                const [indexSmall, indexLarge] = res[i - 1];
+                const [smallBar, largeBar] = res[i];
+                const smallBarStyle = arrayBars[indexSmall].style;
+                const largeBarStyle = arrayBars[indexLarge].style;
+                if (indexSmall !== indexLarge) {
+                    setTimeout(() => {
+                        if (smallBar === largeBar) {
+                            smallBarStyle.backgroundColor = SAMESIZE_COLOR;
+                            largeBarStyle.backgroundColor = SAMESIZE_COLOR;
+                        }
+                        else {
+                            smallBarStyle.backgroundColor = SMALLER_COLOR;
+                            largeBarStyle.backgroundColor = LARGER_COLOR;
+                        }
+                    }, (i) * ANIMATION_SPEED_MS);
+                    setTimeout(() => {
+                        smallBarStyle.backgroundColor = PRIMARY_COLOR;
+                        largeBarStyle.backgroundColor = PRIMARY_COLOR;
+                    }, (i + 1) * ANIMATION_SPEED_MS);
+                }
+                completedAnimations += 1;
+            } 
+            else if (stage === 3) {
+                const [barOneIdx, newHeight] = res[i];
+                const barOneStyle = arrayBars[barOneIdx].style;
+                setTimeout(() => {
+                    barOneStyle.height = `${newHeight}px`;
+                    barOneStyle.backgroundColor = DONE_COLOR;
+                    completedAnimations++;
+                    checkGreen(completedAnimations, res, arrayBars);
+                }, i * ANIMATION_SPEED_MS);
+                setTimeout(() => {
+                    barOneStyle.backgroundColor = PRIMARY_COLOR;
+                    largeBarStyle.backgroundColor = PRIMARY_COLOR;
+                    checkGreen(completedAnimations, res, arrayBars);
+                }, (i + 1) * ANIMATION_SPEED_MS);
+            }
+          }
+    }
