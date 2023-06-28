@@ -112,6 +112,7 @@ export default class SortingVisualizer extends React.Component {
         const { array } = this.state;
         const arrayBars = document.getElementsByClassName("arrayBar");
         mergeSortExp(array, arrayBars)
+        this.setState({ buttonsDisabled: false, isSorting: false });
       }
 
     heapSort() {

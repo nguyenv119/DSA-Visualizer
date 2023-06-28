@@ -14,7 +14,7 @@ export function resetColors(PRIMARY_COLOR) {
  * By incrementing the greenIndex each time we make a bar green, 
  * we can see when we reach the end
 */
-export function checkGreen(completedAnimations, res, arrayBars) {
+export function greenify(completedAnimations, res, arrayBars) {
     if (completedAnimations === res.length) {
         let greenIndex = 0;
         const greenInterval = setInterval(() => {
@@ -23,7 +23,6 @@ export function checkGreen(completedAnimations, res, arrayBars) {
 
             if (greenIndex === arrayBars.length) {
             clearInterval(greenInterval);
-            this.setState({ buttonsDisabled: false, isSorting: false });
             }
         }, GREEN_SPEED);
     }

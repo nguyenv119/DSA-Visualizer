@@ -1,4 +1,4 @@
-import {resetColors, checkGreen} from "../SortingAlgos/CommonMethods/commonMethods";
+import {resetColors, greenify} from "../SortingAlgos/CommonMethods/commonMethods";
 import { ANIMATION_SPEED_MS, 
             PRIMARY_COLOR,
             SECONDARY_COLOR,
@@ -119,13 +119,13 @@ function animate(res, arrayBars, completedAnimations) {
                 barOneStyle.backgroundColor = SECONDARY_COLOR;
                 barTwoStyle.backgroundColor = SECONDARY_COLOR;
                 completedAnimations += 2;
-                checkGreen(completedAnimations, res, arrayBars);
+                greenify(completedAnimations, res, arrayBars);
               }, (i) * ANIMATION_SPEED_MS);
 
               setTimeout(() => {
                 barOneStyle.backgroundColor = PRIMARY_COLOR;
                 barTwoStyle.backgroundColor = PRIMARY_COLOR;
-                checkGreen(completedAnimations, res, arrayBars);
+                greenify(completedAnimations, res, arrayBars);
             }, (i + 1) * ANIMATION_SPEED_MS);
             } 
             else if (stage === 2) {
@@ -158,11 +158,11 @@ function animate(res, arrayBars, completedAnimations) {
                     barOneStyle.height = `${newHeight}px`;
                     barOneStyle.backgroundColor = DONE_COLOR;
                     completedAnimations++;
-                    checkGreen(completedAnimations, res, arrayBars);
+                    greenify(completedAnimations, res, arrayBars);
                 }, i * ANIMATION_SPEED_MS);
                 setTimeout(() => {
                     barOneStyle.backgroundColor = PRIMARY_COLOR;
-                    checkGreen(completedAnimations, res, arrayBars);
+                    greenify(completedAnimations, res, arrayBars);
                 }, (i + 1) * ANIMATION_SPEED_MS);
             }
           }
