@@ -18,9 +18,9 @@ export const LARGER_COLOR = "red";
 export const SMALLER_COLOR = "limegreen"
 export const SAMESIZE_COLOR = "yellow";
 export const DONE_COLOR = "rgba(255, 0, 238, 0.87)";
+import 'bootstrap/dist/css/bootstrap.css';
 
-// import 'bootstrap/dist/css/bootstrap.css';
-{/* export default class defines the class we want to have as a tag*/}
+/* export default class defines the class we want to have as a tag*/
 export default class SortingVisualizer extends React.Component {
 
     /** Called when react component is created 

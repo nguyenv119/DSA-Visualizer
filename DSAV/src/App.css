@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 0, 238, 0.87);
-  background-color: #242424;
+  background-color: #f1b5b5;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -37,4 +37,5 @@ button:focus-visible {
 body {
   width: auto;
   height: auto;
+  background-color: #242424;
 }

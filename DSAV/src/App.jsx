@@ -1,6 +1,6 @@
 import React from "react";
 import SortingVisualizer from "./SortingVisualizer/SortingVisualizer";
-// import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
 function App() {

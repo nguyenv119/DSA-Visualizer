@@ -1,11 +1,11 @@
 import {resetColors, checkGreen} from "../SortingAlgos/CommonMethods/commonMethods";
 import { ANIMATION_SPEED_MS, 
-        PRIMARY_COLOR,
-        SECONDARY_COLOR,
-        LARGER_COLOR,
-        SMALLER_COLOR,
-        SAMESIZE_COLOR,
-        DONE_COLOR } from "../SortingVisualizer/SortingVisualizer";
+            PRIMARY_COLOR,
+            SECONDARY_COLOR,
+            LARGER_COLOR,
+            SMALLER_COLOR,
+            SAMESIZE_COLOR,
+            DONE_COLOR } from "../SortingVisualizer/SortingVisualizer";
 
 /** The mergeSort function we are exporting with the animation array */
 export function mergeSortExp(array, arrayBars) {
@@ -162,7 +162,6 @@ function animate(res, arrayBars, completedAnimations) {
                 }, i * ANIMATION_SPEED_MS);
                 setTimeout(() => {
                     barOneStyle.backgroundColor = PRIMARY_COLOR;
-                    largeBarStyle.backgroundColor = PRIMARY_COLOR;
                     checkGreen(completedAnimations, res, arrayBars);
                 }, (i + 1) * ANIMATION_SPEED_MS);
             }

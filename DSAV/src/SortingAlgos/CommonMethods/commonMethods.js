@@ -1,4 +1,4 @@
-import { GREEN_SPEED } from "../../SortingVisualizer/SortingVisualizer";
+import { GREEN_SPEED, SMALLER_COLOR } from "../../SortingVisualizer/SortingVisualizer";
 
 /** Resets the color of the array before sorting back to PRIMARY */
 export function resetColors(PRIMARY_COLOR) {
