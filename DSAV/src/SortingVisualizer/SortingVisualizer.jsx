@@ -1,6 +1,6 @@
 import React from "react";
 import {mergeSortExp} from "../SortingAlgos/mergeSort"
-// import {BubbleSortExp} from "../SortingAlgos/bubbleSort"
+import {bubbleSortExp} from "../SortingAlgos/bubbleSort"
 // import {HeapSortExp} from "../SortingAlgos/heapSort"
 // import {QuickSortExp} from "../SortingAlgos/quickSort"
 // import {SelectionSortExp} from "../SortingAlgos/selectionSort"
@@ -9,13 +9,13 @@ import "./SortingVisualizer.css"
 
 const MINVAL = 5;
 const MAXVAL = 730;
-const BARS = 308;
-export const ANIMATION_SPEED_MS = 0.5;
+const BARS = 310;
+export const ANIMATION_SPEED_MS = 1;
 export const GREEN_SPEED = 1;
 export const PRIMARY_COLOR = 'rgba(69, 85, 255, 0.87)';
 export const SECONDARY_COLOR = 'orange';
-export const LARGER_COLOR = "red";
-export const SMALLER_COLOR = "limegreen"
+export const SMALLER_COLOR = "red";
+export const LARGER_COLOR = "limegreen"
 export const SAMESIZE_COLOR = "yellow";
 export const DONE_COLOR = "rgba(255, 0, 238, 0.87)";
 import 'bootstrap/dist/css/bootstrap.css';
@@ -100,23 +100,23 @@ export default class SortingVisualizer extends React.Component {
         this.setState({ buttonsDisabled: true, isSorting: true });
         const { array } = this.state;
         const arrayBars = document.getElementsByClassName("arrayBar");
-        let res = getBubbleSortAnimationArray(array.slice());
-        console.log(res);
-
-        this.resetColors()
-        this.animate(res, arrayBars, 0)
-    }
-
-    mergeSort() {
-        this.setState({ buttonsDisabled: true, isSorting: true });
-        const { array } = this.state;
-        const arrayBars = document.getElementsByClassName("arrayBar");
-        let res = mergeSortExp(array, arrayBars)
+        let res = bubbleSortExp(array, arrayBars);
 
         setTimeout(() => {
             this.setState({ buttonsDisabled: false, isSorting: false });
         }, (res.length * 1.3) * ANIMATION_SPEED_MS);
       }
+    
+    mergeSort() {
+        this.setState({ buttonsDisabled: true, isSorting: true });
+        const { array } = this.state;
+        const arrayBars = document.getElementsByClassName("arrayBar");
+        let res = mergeSortExp(array, arrayBars);
+
+        setTimeout(() => {
+            this.setState({ buttonsDisabled: false, isSorting: false });
+        }, (res.length * 1.3) * ANIMATION_SPEED_MS);
+    }
 
     heapSort() {
         this.setState({ buttonsDisabled: true, isSorting: true });

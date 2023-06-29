@@ -1,4 +1,4 @@
-import {resetColors, greenify} from "../SortingAlgos/CommonMethods/commonMethods";
+import {resetAllBarColors, greenify} from "../SortingAlgos/CommonMethods/commonMethods";
 import { ANIMATION_SPEED_MS, 
             PRIMARY_COLOR,
             SECONDARY_COLOR,
@@ -9,7 +9,7 @@ import { ANIMATION_SPEED_MS,
 
 /** The mergeSort function we are exporting with the animation array */
 export function mergeSortExp(array, arrayBars) {
-    resetColors(arrayBars, PRIMARY_COLOR);        
+    resetAllBarColors(arrayBars, PRIMARY_COLOR);        
     const res = getMergeSortAnimationArray(array.slice());
     animate(res, arrayBars, 0);
     return res;
@@ -120,13 +120,11 @@ function animate(res, arrayBars, completedAnimations) {
                 barOneStyle.backgroundColor = SECONDARY_COLOR;
                 barTwoStyle.backgroundColor = SECONDARY_COLOR;
                 completedAnimations += 2;
-                greenify(completedAnimations, res, arrayBars);
               }, (i) * ANIMATION_SPEED_MS);
 
               setTimeout(() => {
                 barOneStyle.backgroundColor = PRIMARY_COLOR;
                 barTwoStyle.backgroundColor = PRIMARY_COLOR;
-                greenify(completedAnimations, res, arrayBars);
             }, (i + 1) * ANIMATION_SPEED_MS);
             } 
             else if (stage === 2) {
@@ -150,7 +148,7 @@ function animate(res, arrayBars, completedAnimations) {
                         largeBarStyle.backgroundColor = PRIMARY_COLOR;
                     }, (i + 1) * ANIMATION_SPEED_MS);
                 }
-                completedAnimations += 1;
+                completedAnimations++;
             } 
             else if (stage === 3) {
                 const [barOneIdx, newHeight] = res[i];
