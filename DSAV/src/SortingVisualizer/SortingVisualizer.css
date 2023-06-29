@@ -4,7 +4,7 @@
     font-weight: 400;
   
     color-scheme: light dark;
-    color: rgba(121, 120, 185, 0.87);
+    color: rgba(0, 102, 255, 0.87);
     background-color: #242424;
   
     font-synthesis: none;
@@ -24,8 +24,7 @@
 }
 
 .arrayBar {
-    width: 20px;
-    background-color: rgb(88, 118, 255);
+    width: 2px;
     /* background-color: rgb(177, 0, 200); */
     display: inline-block;
     margin: 0 2px 0 0;

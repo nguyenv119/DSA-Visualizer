@@ -9,15 +9,20 @@ import "./SortingVisualizer.css"
 
 const MINVAL = 5;
 const MAXVAL = 730;
-const BARS = 10;
-export const ANIMATION_SPEED_MS = 300;
+
+/** 
+ * ! need to have some formula to calculate restating of properties with
+ * ! relation to BARS, ANIMATION SPEED, and TYPE OF SORTING
+ */
+export const BARS = 310;
+export const ANIMATION_SPEED_MS = 1;
 export const GREEN_SPEED = 1;
-export const PRIMARY_COLOR = 'rgba(69, 85, 255, 0.87)';
+export const PRIMARY_COLOR = 'rgba(0, 102, 255, 0.87)';
 export const SECONDARY_COLOR = 'orange';
 export const SMALLER_COLOR = "red";
 export const LARGER_COLOR = "limegreen"
 export const SAMESIZE_COLOR = "yellow";
-export const DONE_COLOR = "rgba(255, 0, 238, 0.87)";
+export const DONE_COLOR = "rgba(255, 0, 166, 0.87)";
 import 'bootstrap/dist/css/bootstrap.css';
 
 /* export default class defines the class we want to have as a tag*/
@@ -108,7 +113,7 @@ export default class SortingVisualizer extends React.Component {
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
-        }, (res.length * 1.3) * ANIMATION_SPEED_MS);
+        }, (res.length * 0.1) * ANIMATION_SPEED_MS);
       }
     
     mergeSort() {
@@ -119,7 +124,7 @@ export default class SortingVisualizer extends React.Component {
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
-        }, (res.length * 1.3) * ANIMATION_SPEED_MS);
+        }, (res.length * 1.15) * ANIMATION_SPEED_MS);
     }
 
     heapSort() {
@@ -177,8 +182,8 @@ export default class SortingVisualizer extends React.Component {
                         style={{ 
                             backgroundColor: PRIMARY_COLOR,
                             height: `${value}px` 
-                            }}>
-                    </div>
+                        }}>
+                </div>
                     ))}
                 </div>
             </div>
