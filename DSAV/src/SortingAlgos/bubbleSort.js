@@ -10,9 +10,9 @@ import { ANIMATION_SPEED_MS,
 /** The bubbleSort function we are exporting with the animation array */
 export function bubbleSortExp(array, arrayBars) {
     resetAllBarColors(arrayBars, PRIMARY_COLOR);        
-    const res = getBubbleSortAnimationArray(array.slice());
+    const [res, arr] = getBubbleSortAnimationArray(array.slice());
     animate(res, arrayBars, 0);
-    return res;
+    return [res, arr];
 }
 
 /**
@@ -28,7 +28,7 @@ function getBubbleSortAnimationArray(arr) {
     const animations = [];
     if (arr.length <= 1) return arr;
     bubbleSort(arr, animations)
-    return animations;
+    return [animations, arr];
 }
 
 /** Actual bubbleSort function 

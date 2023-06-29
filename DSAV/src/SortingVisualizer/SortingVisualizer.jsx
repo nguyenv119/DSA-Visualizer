@@ -9,8 +9,8 @@ import "./SortingVisualizer.css"
 
 const MINVAL = 5;
 const MAXVAL = 730;
-const BARS = 310;
-export const ANIMATION_SPEED_MS = 0.5;
+const BARS = 10;
+export const ANIMATION_SPEED_MS = 300;
 export const GREEN_SPEED = 1;
 export const PRIMARY_COLOR = 'rgba(69, 85, 255, 0.87)';
 export const SECONDARY_COLOR = 'orange';
@@ -96,14 +96,18 @@ export default class SortingVisualizer extends React.Component {
         // console.log(check.every((value, index) => value === res[index]))
     }
 
+    /** For all sorting algos, we are returned an animation array, and a copy
+     * of the sorted array. At the end of every animation, we set the state
+     * to be the sorted array, as to not redo the animations on the unsorted array
+     * if it were not replaced with the sorted array */ 
     bubbleSort() {
         this.setState({ buttonsDisabled: true, isSorting: true });
         const { array } = this.state;
         const arrayBars = document.getElementsByClassName("arrayBar");
-        let res = bubbleSortExp(array, arrayBars);
+        let [res, arr] = bubbleSortExp(array, arrayBars);
 
         setTimeout(() => {
-            this.setState({ buttonsDisabled: false, isSorting: false });
+            this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
         }, (res.length * 1.3) * ANIMATION_SPEED_MS);
       }
     
@@ -111,10 +115,10 @@ export default class SortingVisualizer extends React.Component {
         this.setState({ buttonsDisabled: true, isSorting: true });
         const { array } = this.state;
         const arrayBars = document.getElementsByClassName("arrayBar");
-        let res = mergeSortExp(array, arrayBars);
+        let [res, arr] = mergeSortExp(array, arrayBars);
 
         setTimeout(() => {
-            this.setState({ buttonsDisabled: false, isSorting: false });
+            this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
         }, (res.length * 1.3) * ANIMATION_SPEED_MS);
     }
 
