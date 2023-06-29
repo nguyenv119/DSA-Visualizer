@@ -31,7 +31,12 @@ function getMergeSortAnimationArray(arr) {
     return animations;
 }
 
-/** The actual merge sort function */
+/** The actual merge sort function 
+ * 0: initial compare
+ * 1: indexSmall, indexLarge
+ * 2: indexSmallValue, indexLargeValue
+ * 3: replace index with heights
+*/
 function mergeSort(array, l, r, copy, animations) {
 
     function merge(mainArr, l, m, r, copy, animations) {
@@ -102,12 +107,7 @@ function mergeSort(array, l, r, copy, animations) {
     merge(array, l, m, r, copy, animations);
 }
 
-/** Animates the array sorting 
- * 0: initial compare
- * 1: indexSmall, indexLarge
- * 2: indexSmallValue, indexLargeValue
- * 3: replace index with heights
-*/
+/** Animates mergeSort */
 function animate(res, arrayBars, completedAnimations) {
         for (let i = 0; i < res.length; i++) {
             const stage = i % 4;

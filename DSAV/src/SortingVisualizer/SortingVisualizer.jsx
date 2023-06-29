@@ -10,7 +10,7 @@ import "./SortingVisualizer.css"
 const MINVAL = 5;
 const MAXVAL = 730;
 const BARS = 310;
-export const ANIMATION_SPEED_MS = 1;
+export const ANIMATION_SPEED_MS = 0.5;
 export const GREEN_SPEED = 1;
 export const PRIMARY_COLOR = 'rgba(69, 85, 255, 0.87)';
 export const SECONDARY_COLOR = 'orange';

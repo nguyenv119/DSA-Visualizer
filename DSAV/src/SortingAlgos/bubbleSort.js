@@ -15,7 +15,6 @@ export function bubbleSortExp(array, arrayBars) {
     return res;
 }
 
-
 /**
  * When comparing two indices add twice to the animations to 
  * animate SECONDARY then switch back.
@@ -25,8 +24,9 @@ export function bubbleSortExp(array, arrayBars) {
  * --> There, we should pass in the indices and the new heights of the two
  * swapped elements
  */
-export function getBubbleSortAnimationArray(arr) {
+function getBubbleSortAnimationArray(arr) {
     const animations = [];
+    if (arr.length <= 1) return arr;
     bubbleSort(arr, animations)
     return animations;
 }
@@ -42,11 +42,12 @@ export function getBubbleSortAnimationArray(arr) {
  * sorted parts green as we move along down
 */
 function bubbleSort(array, animations) {
+
     let didSwap = true;
     let i = array.length;
     while (didSwap && i > 0) {
         didSwap = false;
-        for (let j = 0; j < i - 1; ++j) {
+        for (let j = 0; j < i - 1; j++) {
 
             /** 
             * Pass in 2 indices for bar comparison 
@@ -126,22 +127,28 @@ function animate(res, arrayBars, completedAnimations) {
             const largerBarIndex = (smallerBarIndex === indexJ) ? indexJ1 : indexJ;
             const barOneStyle = arrayBars[smallerBarIndex].style;
             const barTwoStyle = arrayBars[largerBarIndex].style; 
-            const largerHeight = (indexJVal > indexJ1Val) ? indexJVal : indexJ1Val;
+            const largerHeight = (indexJVal >= indexJ1Val) ? indexJVal : indexJ1Val;
             const smallerHeight = (indexJVal < indexJ1Val) ? indexJVal : indexJ1Val;
-            console.log(smallerHeight, largerHeight);
-            if (indexJVal !== indexJ1Val) {
 
-                setTimeout(() => {
-                    [barOneStyle.height, barTwoStyle.height] = [`${largerHeight}px`, `${smallerHeight}px`];
-                    [barOneStyle.backgroundColor, barTwoStyle.backgroundColor] = [LARGER_COLOR, SMALLER_COLOR];
-                    completedAnimations++;
-                    // greenify(completedAnimations, res, arrayBars);
-                }, (i) * ANIMATION_SPEED_MS * 0.1);   
+            if (indexJVal !== indexJ1Val) {
+                /** only switch height if the smaller index > larger index */
+                if (indexJVal > indexJ1Val) {
+                    setTimeout(() => {
+                        [barOneStyle.height, barTwoStyle.height] = [`${largerHeight}px`, `${smallerHeight}px`];
+                        [barOneStyle.backgroundColor, barTwoStyle.backgroundColor] = [LARGER_COLOR, SMALLER_COLOR];
+                    }, (i) * ANIMATION_SPEED_MS * 0.1);   
+                }
+                /** if not, set both bars to purple */
+                else {
+                    setTimeout(() => {
+                        [barOneStyle.backgroundColor, barTwoStyle.backgroundColor] = [DONE_COLOR, DONE_COLOR];
+                    }, (i) * ANIMATION_SPEED_MS * 0.1);
+                }
+                completedAnimations++;
             }
             else {
                 setTimeout(() => {
                     completedAnimations++;
-                    // greenify(completedAnimations, res, arrayBars);
                 }, (i) * ANIMATION_SPEED_MS * 0.1);
             }
             setTimeout(() => {
