@@ -155,7 +155,6 @@ function animate(res, arrayBars, completedAnimations, toBeSortedIndex) {
                 barOneStyle.backgroundColor = PRIMARY_COLOR;
                 barTwoStyle.backgroundColor = PRIMARY_COLOR;
                 if (indexJ1 === toBeSortedIndex) {
-                        console.log(indexJ1);
                         arrayBars[indexJ1].style.backgroundColor = DONE_COLOR;
                         toBeSortedIndex--;
                 } 

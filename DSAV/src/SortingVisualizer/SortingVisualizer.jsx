@@ -1,14 +1,14 @@
 import React from "react";
 import {mergeSortExp} from "../SortingAlgos/mergeSort"
 import {bubbleSortExp} from "../SortingAlgos/bubbleSort"
+import {selectionSortExp} from "../SortingAlgos/selectionSort"
 // import {HeapSortExp} from "../SortingAlgos/heapSort"
 // import {QuickSortExp} from "../SortingAlgos/quickSort"
-// import {SelectionSortExp} from "../SortingAlgos/selectionSort"
 // import {InsertionSortExp} from "../SortingAlgos/insertionSort"
 import "./SortingVisualizer.css"
 
 const MINVAL = 5;
-const MAXVAL = 730;
+const MAXVAL = 650;
 
 /** 
  * ! need to have some formula to calculate restating of properties with
@@ -17,11 +17,12 @@ const MAXVAL = 730;
 export const BARS = 310;
 export const ANIMATION_SPEED_MS = 1;
 export const GREEN_SPEED = 1;
-export const PRIMARY_COLOR = 'rgba(0, 102, 255, 0.87)';
-export const SECONDARY_COLOR = 'orange';
-export const SMALLER_COLOR = "red";
-export const LARGER_COLOR = "limegreen"
-export const SAMESIZE_COLOR = "yellow";
+export const PRIMARY_COLOR = '#007ce8';
+export const SECONDARY_COLOR = '#fe5f24';
+export const SMALLER_COLOR = "#f44336";
+export const LARGER_COLOR = "#50af50"
+export const SAMESIZE_COLOR = "#f1cc32";
+export const SMALLEST_SOFAR_COLOR = "#FC0FC0"
 export const DONE_COLOR = "rgba(255, 0, 166, 0.87)";
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -74,15 +75,6 @@ export default class SortingVisualizer extends React.Component {
         
     }
 
-    selectionSort() {
-        this.setState({ buttonsDisabled: true, isSorting: true });
-        const {array} = this.state;
-        // let check = array.sort((a, b) => a - b);
-        let res = getSelectionSortAnimationArray(array.slice())
-        this.setState({res})
-        // console.log(check.every((value, index) => value === res[index]))
-    }
-
     insertionSort() {
         this.setState({ buttonsDisabled: true, isSorting: true });
         const {array} = this.state;
@@ -115,6 +107,17 @@ export default class SortingVisualizer extends React.Component {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
         }, (res.length * 0.1) * ANIMATION_SPEED_MS);
       }
+
+    selectionSort() {
+        this.setState({ buttonsDisabled: true, isSorting: true });
+        const {array} = this.state;
+        const arrayBars = document.getElementsByClassName("arrayBar");
+        let [res, arr] = selectionSortExp(array, arrayBars);
+
+        setTimeout(() => {
+            this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
+        }, (res.length) * ANIMATION_SPEED_MS);
+    }
     
     mergeSort() {
         this.setState({ buttonsDisabled: true, isSorting: true });
