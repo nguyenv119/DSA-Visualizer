@@ -41,7 +41,6 @@ export default class SortingVisualizer extends React.Component {
         this.state = {
             array: [],
             isSorting: false,
-            paused: false,
             buttonsDisabled: false,
         };
     };
@@ -175,7 +174,7 @@ export default class SortingVisualizer extends React.Component {
                     <div className="scrollableRangeContainer">
                         <label for="customRange3" className="form-label">Example range</label>
                         <div className="scrollableRange">
-                        <input type="range" className="form-range" min="0" max="5" step="0.5" id="customRange3"></input>
+                        <input type="range" className="form-range" min="0.25" max="6" step="0.5" id="customRange3"></input>
                         </div>
                     </div>
                     <div className="buttonRight">

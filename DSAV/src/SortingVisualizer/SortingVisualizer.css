@@ -16,16 +16,15 @@
 
 .arrayContainer {
     display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh; 
-  margin: 0 0 0 135px
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; 
+    margin: 0 0 0 135px
 }
 
 .arrayBar {
     width: 2px;
-    /* background-color: rgb(177, 0, 200); */
     display: inline-block;
     margin: 0 2px 0 0;
 }
@@ -52,19 +51,19 @@
     width: 8%;
 }
 
-  .scrollableRangeContainer {
+.scrollableRangeContainer {
     width: 30%;
     overflow-x: auto;
     margin: -10px 10px 20px 0;
-  }
-  
-  .scrollableRange {
+}
+
+.scrollableRange {
     display: flex;
     flex-grow: 1;
     white-space: nowrap;
     padding-right: 20px;
-  }
-  
-  .scrollableRange input {
+}
+
+.scrollableRange input {
     width: 100%;
-  }
+}
