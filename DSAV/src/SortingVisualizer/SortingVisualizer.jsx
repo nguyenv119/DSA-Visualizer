@@ -8,13 +8,13 @@ import {selectionSortExp} from "../SortingAlgos/selectionSort"
 import "./SortingVisualizer.css"
 
 const MINVAL = 5;
-const MAXVAL = 650;
+const MAXVAL = 700;
 
 /** 
  * ! need to have some formula to calculate restating of properties with
  * ! relation to BARS, ANIMATION SPEED, and TYPE OF SORTING
  */
-export const BARS = 310;
+export const BARS = 308;
 export const ANIMATION_SPEED_MS = 1;
 export const GREEN_SPEED = 1;
 export const PRIMARY_COLOR = '#007ce8';
@@ -168,9 +168,15 @@ export default class SortingVisualizer extends React.Component {
                         <button onClick={() => this.bubbleSort()} disabled={buttonsDisabled}>Bubble Sort</button>
                         <button onClick={() => this.selectionSort()} disabled={buttonsDisabled}>Selection Sort</button>
                         <button onClick={() => this.insertionSort()} disabled={buttonsDisabled}>Insertion Sort</button>
-                        <button onClick={() => this.quickSort()} disabled={buttonsDisabled}>Quick Sort</button>
+                        {/* <button onClick={() => this.quickSort()} disabled={buttonsDisabled}>Quick Sort</button> */}
                         <button onClick={() => this.mergeSort()} disabled={buttonsDisabled}>Merge Sort</button>
                         <button onClick={() => this.heapSort()} disabled={buttonsDisabled}>Heap Sort</button>
+                    </div>
+                    <div className="scrollableRangeContainer">
+                        <label for="customRange3" className="form-label">Example range</label>
+                        <div className="scrollableRange">
+                        <input type="range" className="form-range" min="0" max="5" step="0.5" id="customRange3"></input>
+                        </div>
                     </div>
                     <div className="buttonRight">
                         <button onClick={() => this.toggleSorting()} disabled={isSorting}>

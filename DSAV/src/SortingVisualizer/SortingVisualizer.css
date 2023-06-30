@@ -36,7 +36,7 @@
 }
 
 .buttons {
-    margin: -100px 0 15px 10px;
+    margin: -35px 0 10px 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -45,9 +45,26 @@
 }
 
 .buttonLeft {
-    width: 92%;
+    width: 90%;
 }
 
 .buttonRight {
     width: 8%;
 }
+
+  .scrollableRangeContainer {
+    width: 30%;
+    overflow-x: auto;
+    margin: -10px 10px 20px 0;
+  }
+  
+  .scrollableRange {
+    display: flex;
+    flex-grow: 1;
+    white-space: nowrap;
+    padding-right: 20px;
+  }
+  
+  .scrollableRange input {
+    width: 100%;
+  }
