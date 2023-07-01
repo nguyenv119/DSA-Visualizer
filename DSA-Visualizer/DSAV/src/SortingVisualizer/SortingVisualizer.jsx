@@ -13,7 +13,7 @@ const MAXVAL = 700;
  * ! need to have some formula to calculate restating of properties with
  * ! relation to BARS, ANIMATION SPEED, and TYPE OF SORTING
  */
-export const BARS = 308;
+export const BARS = 100;
 export const ANIMATION_SPEED_MS = 1;
 export const GREEN_SPEED = 1;
 export const PRIMARY_COLOR = '#007ce8';
@@ -90,7 +90,7 @@ export default class SortingVisualizer extends React.Component {
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
-        }, (res.length * 0.1) * ANIMATION_SPEED_MS);
+        }, (res.length) * ANIMATION_SPEED_MS);
       }
 
     insertionSort() {
@@ -99,7 +99,7 @@ export default class SortingVisualizer extends React.Component {
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
-        }, (res.length * 0.1) * ANIMATION_SPEED_MS);
+        }, (res.length) * ANIMATION_SPEED_MS);
     }
 
     selectionSort() {
@@ -178,6 +178,7 @@ export default class SortingVisualizer extends React.Component {
                     <div className = "arrayBar" 
                         key={index} 
                         style={{ 
+                            animation: "AnimationName 12s ease infinite",
                             backgroundColor: PRIMARY_COLOR,
                             height: `${value}px` 
                         }}>
