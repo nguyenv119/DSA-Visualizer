@@ -1,4 +1,4 @@
-import {resetAllBarColors, greenify} from "../SortingAlgos/CommonMethods/commonMethods";
+import {resetAllBarColors, greenify} from "./CommonMethods/commonMethods";
 import { ANIMATION_SPEED_MS, 
             PRIMARY_COLOR,
             SECONDARY_COLOR,
