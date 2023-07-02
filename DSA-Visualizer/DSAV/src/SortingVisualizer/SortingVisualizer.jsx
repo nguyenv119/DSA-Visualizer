@@ -7,13 +7,13 @@ import {insertionSortExp} from "../SortingAlgos/insertionSort"
 import "./SortingVisualizer.css"
 
 const MINVAL = 5;
-const MAXVAL = 700;
+const MAXVAL = 650;
 
 /** 
  * ! need to have some formula to calculate restating of properties with
  * ! relation to BARS, ANIMATION SPEED, and TYPE OF SORTING
  */
-export const BARS = 100;
+export const BARS = 310;
 export const ANIMATION_SPEED_MS = 1;
 export const GREEN_SPEED = 1;
 export const PRIMARY_COLOR = '#007ce8';
@@ -151,9 +151,10 @@ export default class SortingVisualizer extends React.Component {
              * 
              * ref: https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_map3
              */
+
             <div className="arrayContainer">
-                <div className = "buttons">
-                    <div className="buttonLeft">
+                <div className="buttons">
+                    <div className="buttonGroup">
                         <button onClick={() => this.makeArray()} disabled={isSorting}>Generate New Array</button>
                         <button onClick={() => this.bubbleSort()} disabled={buttonsDisabled}>Bubble Sort</button>
                         <button onClick={() => this.selectionSort()} disabled={buttonsDisabled}>Selection Sort</button>
@@ -161,31 +162,115 @@ export default class SortingVisualizer extends React.Component {
                         <button onClick={() => this.mergeSort()} disabled={buttonsDisabled}>Merge Sort</button>
                         <button onClick={() => this.heapSort()} disabled={buttonsDisabled}>Heap Sort</button>
                     </div>
+                </div>
+                <div className="settings">
                     <div className="scrollableRangeContainer">
-                        <label for="customRange3" className="form-label">Example range</label>
+                        <label for="customRange3" className="form-label"></label>
                         <div className="scrollableRange">
-                        <input type="range" className="form-range" min="0.25" max="6" step="0.5" id="customRange3"></input>
+                            <input type="range" className="form-range" min="0.25" max="6" step="0.5" id="customRange3"></input>
                         </div>
                     </div>
-                    <div className="buttonRight">
-                        <div className="speed">
-                            Speed
+                    <div className="colorful">
+                        Speed
+                    </div>
+                    <div className="scrollableRangeContainer">
+                        <label for="customRange4" className="form-label"></label>
+                        <div className="scrollableRange">
+                            <input type="range" className="form-range" min="0" max="100" step="1" id="customRange4"></input>
                         </div>
+                    </div>
+                    <div className="colorful">
+                        Array Length
                     </div>
                 </div>
                 <div className="arrayBars">
                     {array.map((value, index) => (
-                    <div className = "arrayBar" 
-                        key={index} 
-                        style={{ 
-                            animation: "AnimationName 12s ease infinite",
-                            backgroundColor: PRIMARY_COLOR,
-                            height: `${value}px` 
-                        }}>
-                </div>
+                    <div
+                        className="arrayBar"
+                        key={index}
+                        style={{
+                        backgroundColor: PRIMARY_COLOR,
+                        height: `${value}px`
+                        }}
+                    ></div>
                     ))}
                 </div>
             </div>
+
+
+            // <div className="arrayContainer">
+            //     <div className = "buttons">
+            //             <button onClick={() => this.makeArray()} disabled={isSorting}>Generate New Array</button>
+            //             <button onClick={() => this.bubbleSort()} disabled={buttonsDisabled}>Bubble Sort</button>
+            //             <button onClick={() => this.selectionSort()} disabled={buttonsDisabled}>Selection Sort</button>
+            //             <button onClick={() => this.insertionSort()} disabled={buttonsDisabled}>Insertion Sort</button>
+            //             <button onClick={() => this.mergeSort()} disabled={buttonsDisabled}>Merge Sort</button>
+            //             <button onClick={() => this.heapSort()} disabled={buttonsDisabled}>Heap Sort</button>
+            //     </div>
+            //     <div className="settings">
+            //         <div className="scrollableRangeContainer">
+            //             <label for="customRange3" className="form-label">Example range</label>
+            //             <div className="scrollableRange">
+            //                 <input type="range" className="form-range" min="0.25" max="6" step="0.5" id="customRange3"></input>
+            //             </div>  
+            //         </div>
+            //         <div className="speed"> Speed </div>
+            //         <div className="scrollableRangeContainer">
+            //             <label for="customRange4" className="form-label">Another range</label>
+            //             <div className="scrollableRange">
+            //                 <input type="range" className="form-range" min="0" max="100" step="1" id="customRange4"></input>
+            //             </div>
+            //         </div>
+            //         <div className="arrayLength"> Array Length </div>
+            //     </div>
+            //     <div className="arrayBars">
+            //         {array.map((value, index) => (
+            //         <div className="arrayBar"
+            //             key={index}
+            //             style={{
+            //             backgroundColor: PRIMARY_COLOR,
+            //             height: `${value}px`
+            //             }}>
+            //         </div>
+            //         ))}
+            //     </div>
+            //     </div>
+
+            // <div className="arrayContainer">
+            //     <div className = "buttons">
+            //         <div className="buttonLeft">
+            //             <button onClick={() => this.makeArray()} disabled={isSorting}>Generate New Array</button>
+            //             <button onClick={() => this.bubbleSort()} disabled={buttonsDisabled}>Bubble Sort</button>
+            //             <button onClick={() => this.selectionSort()} disabled={buttonsDisabled}>Selection Sort</button>
+            //             <button onClick={() => this.insertionSort()} disabled={buttonsDisabled}>Insertion Sort</button>
+            //             <button onClick={() => this.mergeSort()} disabled={buttonsDisabled}>Merge Sort</button>
+            //             <button onClick={() => this.heapSort()} disabled={buttonsDisabled}>Heap Sort</button>
+            //         </div>
+            //         <div className="scrollableRangeContainer">
+            //             <label for="customRange3" className="form-label">Example range</label>
+            //             <div className="scrollableRange">
+            //             <input type="range" className="form-range" min="0.25" max="6" step="0.5" id="customRange3"></input>
+            //             </div>
+            //         </div>
+            //         <div className="buttonRight">
+            //             <div className="speed">
+            //                 Speed
+            //             </div>
+            //         </div>
+            //     </div>
+            //     <div className="arrayBars">
+            //         {array.map((value, index) => (
+            //         <div className = "arrayBar" 
+            //             key={index} 
+            //             style={{ 
+            //                 animation: "AnimationName 12s ease infinite",
+            //                 backgroundColor: PRIMARY_COLOR,
+            //                 height: `${value}px` 
+            //             }}>
+            //     </div>
+            //         ))}
+            //     </div>
+            // </div>
         );
     }
 }

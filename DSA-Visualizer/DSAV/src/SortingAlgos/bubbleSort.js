@@ -156,11 +156,6 @@ function animate(res, arrayBars, completedAnimations, toBeSortedIndex) {
                 barTwoStyle.backgroundColor = PRIMARY_COLOR;
                 if (indexJ1 === toBeSortedIndex) {
                         arrayBars[indexJ1].style.backgroundColor = DONE_COLOR;
-                        // arrayBars[indexJ1].style.background = "linear-gradient(253deg, #ff2424, #ff6924, #cd24ff, #ffb600)";
-                        // arrayBars[indexJ1].style.animationName = "AnimationName";
-                        // arrayBars[indexJ1].style.animationDuration = "12s";
-                        // arrayBars[indexJ1].style.animationTimingFunction = "ease";
-                        // arrayBars[indexJ1].style.animationIterationCount = "infinite";
                         toBeSortedIndex--;
                 } 
                 greenify(completedAnimations, res, arrayBars);
