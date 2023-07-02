@@ -4,7 +4,6 @@ import {bubbleSortExp} from "../SortingAlgos/bubbleSort"
 import {selectionSortExp} from "../SortingAlgos/selectionSort"
 import {insertionSortExp} from "../SortingAlgos/insertionSort"
 import {heapSortExp} from "../SortingAlgos/heapSort"
-import "./SortingVisualizer.css"
 import 'bootstrap/dist/css/bootstrap.css';
 
 /** 
@@ -41,7 +40,7 @@ export default class SortingVisualizer extends React.Component {
             isSorting: false,
             buttonsDisabled: false,
             ANIMATION_SPEED_MS: 4, 
-            BARS: 150, 
+            BARS: 100, 
         };
     };
 
@@ -85,7 +84,7 @@ export default class SortingVisualizer extends React.Component {
             /** Resets the color of array back to PRIMARY, and determines width and length */
             const arrayBars = document.getElementsByClassName("arrayBar");
             for (let i = 0; i < arrayBars.length; i++) {
-                arrayBars[i].style.width = `${500 / BARS}px`;
+                arrayBars[i].style.width = `${777 / BARS}px`;
                 arrayBars[i].style.backgroundColor = PRIMARY_COLOR;
             }
         });
