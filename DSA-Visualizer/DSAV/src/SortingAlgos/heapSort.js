@@ -1,6 +1,5 @@
 import {resetAllBarColors, greenify} from "../SortingAlgos/CommonMethods/commonMethods";
-import { ANIMATION_SPEED_MS, 
-            PRIMARY_COLOR,
+import {    PRIMARY_COLOR,
             SECONDARY_COLOR,
             LARGER_COLOR,
             SMALLER_COLOR,
@@ -8,10 +7,10 @@ import { ANIMATION_SPEED_MS,
             DONE_COLOR } from "../SortingVisualizer/SortingVisualizer";
 
 /** The heapSort function we are exporting with the animation array */
-export function heapSortExp(array, arrayBars) {
+export function heapSortExp(array, arrayBars, ANIMATION_SPEED_MS) {
     resetAllBarColors(arrayBars, PRIMARY_COLOR);
     const [res, arr] = getHeapSortAnimationArray(array.slice());
-    animate(res, arrayBars, 0, BARS - 1);
+    animate(res, arrayBars, 0, BARS - 1, ANIMATION_SPEED_MS);
     return [res, arr];
 }
 
@@ -27,6 +26,6 @@ function heapSort(array, animations) {
 
 }
 
-function animate(res, arrayBars, completedAnimations) {
-    
+function animate(res, arrayBars, completedAnimations, ANIMATION_SPEED_MS) {
+
 }

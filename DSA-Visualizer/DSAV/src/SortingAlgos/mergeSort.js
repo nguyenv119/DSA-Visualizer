@@ -1,17 +1,17 @@
 import {resetAllBarColors, greenify} from "./CommonMethods/commonMethods";
-import { ANIMATION_SPEED_MS, 
-            PRIMARY_COLOR,
+import {    PRIMARY_COLOR,
             SECONDARY_COLOR,
             LARGER_COLOR,
             SMALLER_COLOR,
             SAMESIZE_COLOR,
-            DONE_COLOR } from "../SortingVisualizer/SortingVisualizer";
+            DONE_COLOR, 
+            ANIMATION_SPEED_MS} from "../SortingVisualizer/SortingVisualizer";
 
 /** The mergeSort function we are exporting with the animation array */
-export function mergeSortExp(array, arrayBars) {
+export function mergeSortExp(array, arrayBars, ANIMATION_SPEED_MS) {
     resetAllBarColors(arrayBars, PRIMARY_COLOR);        
     const [res, arr] = getMergeSortAnimationArray(array.slice());
-    animate(res, arrayBars, 0);
+    animate(res, arrayBars, 0, ANIMATION_SPEED_MS);
     return [res, arr];
 }
 
@@ -108,7 +108,7 @@ function mergeSort(array, l, r, copy, animations) {
 }
 
 /** Animates mergeSort */
-function animate(res, arrayBars, completedAnimations) {
+function animate(res, arrayBars, completedAnimations, ANIMATION_SPEED_MS) {
         for (let i = 0; i < res.length; i++) {
             const stage = i % 4;
             

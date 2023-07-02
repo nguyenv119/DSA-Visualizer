@@ -3,7 +3,7 @@ import {mergeSortExp} from "../SortingAlgos/mergeSort"
 import {bubbleSortExp} from "../SortingAlgos/bubbleSort"
 import {selectionSortExp} from "../SortingAlgos/selectionSort"
 import {insertionSortExp} from "../SortingAlgos/insertionSort"
-// import {HeapSortExp} from "../SortingAlgos/heapSort"
+import {heapSortExp} from "../SortingAlgos/heapSort"
 import "./SortingVisualizer.css"
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -14,7 +14,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 const MINVAL = 5;
 const MAXVAL = 650;
 export var BARS = 100;
-export var ANIMATION_SPEED_MS = 1;
+export var ANIMATION_SPEED_MS = 4;
 export const GREEN_SPEED = 1;
 export const PRIMARY_COLOR = '#007ce8';
 export const SECONDARY_COLOR = '#fe5f24';
@@ -40,8 +40,8 @@ export default class SortingVisualizer extends React.Component {
             array: [],
             isSorting: false,
             buttonsDisabled: false,
-            ANIMATION_SPEED_MS: ANIMATION_SPEED_MS, // Use the exported variable
-            BARS: BARS, // Use the exported variable
+            ANIMATION_SPEED_MS: 4, 
+            BARS: 100, 
         };
     };
 
@@ -53,13 +53,22 @@ export default class SortingVisualizer extends React.Component {
         this.makeArray()
     }
 
+    /** Create properties before sorting: arrayBars, array, and speed*/
     makeProps() {
         this.setState({ buttonsDisabled: true, isSorting: true });
-        const { array } = this.state;
         const arrayBars = document.getElementsByClassName("arrayBar");
-        return [array, arrayBars];
+        const { array, ANIMATION_SPEED_MS } = this.state;
+        const speed = ANIMATION_SPEED_MS === 8 ?
+        0.1 : ANIMATION_SPEED_MS === 6 ?
+            1.5 : ANIMATION_SPEED_MS === 4 ?
+              15 : ANIMATION_SPEED_MS === 2 ?
+                100 : ANIMATION_SPEED_MS === 0 ?
+                  1000 : 3000;
+        
+        return [array, arrayBars, speed];
     }
  
+    /** Create the array, including how many bars and how wide */
     makeArray() {
         const { BARS } = this.state;
         const array = [];
@@ -72,7 +81,8 @@ export default class SortingVisualizer extends React.Component {
          * update the array we created
          */
         this.setState({ array, BARS }, () => {
-            /** Resets the color of array back to PRIMARY */
+            
+            /** Resets the color of array back to PRIMARY, and determines width and length */
             const arrayBars = document.getElementsByClassName("arrayBar");
             for (let i = 0; i < arrayBars.length; i++) {
                 arrayBars[i].style.width = `${610 / BARS}px`;
@@ -86,17 +96,8 @@ export default class SortingVisualizer extends React.Component {
      * to be the sorted array, as to not redo the animations on the unsorted array
      * if it were not replaced with the sorted array */ 
     bubbleSort() {
-        let [array, arrayBars] = this.makeProps();
-        let [res, arr] = bubbleSortExp(array, arrayBars);
-
-        setTimeout(() => {
-            this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
-        }, (res.length) * ANIMATION_SPEED_MS);
-      }
-
-    insertionSort() {
-        let [array, arrayBars] = this.makeProps();
-        let [res, arr] = insertionSortExp(array, arrayBars);
+        let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
+        let [res, arr] = bubbleSortExp(array, arrayBars, ANIMATION_SPEED_MS);
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
@@ -104,8 +105,17 @@ export default class SortingVisualizer extends React.Component {
     }
 
     selectionSort() {
-        let [array, arrayBars] = this.makeProps();
-        let [res, arr] = selectionSortExp(array, arrayBars);
+        let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
+        let [res, arr] = selectionSortExp(array, arrayBars, ANIMATION_SPEED_MS);
+
+        setTimeout(() => {
+            this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
+        }, (res.length) * ANIMATION_SPEED_MS);
+    }
+
+    insertionSort() {
+        let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
+        let [res, arr] = insertionSortExp(array, arrayBars, ANIMATION_SPEED_MS);
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
@@ -113,8 +123,8 @@ export default class SortingVisualizer extends React.Component {
     }
     
     mergeSort() {
-        let [array, arrayBars] = this.makeProps();
-        let [res, arr] = mergeSortExp(array, arrayBars);
+        let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
+        let [res, arr] = mergeSortExp(array, arrayBars, ANIMATION_SPEED_MS);
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
@@ -122,30 +132,25 @@ export default class SortingVisualizer extends React.Component {
     }
 
     heapSort() {
-        this.setState({ buttonsDisabled: true, isSorting: true });
-        const {array} = this.state;
-        let check = array.sort((a, b) => a - b);
-        let res = getHeapSortAnimationArray(array.slice())
-        this.setState({res})
-        // console.log(check.every((value, index) => value === res[index]))
-    }
+        let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
+        let [res, arr] = heapSortExp(array, arrayBars, ANIMATION_SPEED_MS);
 
-    toggleSorting() {
-        this.setState(prevState => ({
-          paused: !prevState.paused
-        }));
+        setTimeout(() => {
+            this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
+        }, (res.length) * ANIMATION_SPEED_MS);
     }
-
+    
+    /** Updates the animation speed */
     handleAnimationSpeedChange = (e) => {
-        this.setState({ ANIMATION_SPEED_MS: parseFloat(e.target.value) }, () => {
-          this.makeArray();
-        });
-      };
+        const newSpeed = parseInt(e.target.value);
+        this.setState({ ANIMATION_SPEED_MS: newSpeed });
+    };
       
+    /** Updates the number of bars and their width */  
     handleBarsChange = (e) => {
-    this.setState({ BARS: parseInt(e.target.value) }, () => {
-        this.makeArray();
-    });
+        this.setState({ BARS: parseInt(e.target.value) }, () => {
+            this.makeArray();
+        });
     };
       
         
@@ -182,14 +187,14 @@ export default class SortingVisualizer extends React.Component {
                         <label for="customRange3" className="form-label"></label>
                         <div className="scrollableRange">
                             <input
-                            type="range"
-                            className="form-range"
-                            min="1"
-                            max="3000"
-                            step="100"
-                            id="customRange3"
-                            value={ANIMATION_SPEED_MS}
-                            onChange={this.handleAnimationSpeedChange}
+                                type="range"
+                                className="form-range"
+                                min="0"
+                                max="8"
+                                step="2"
+                                id="customRange3"
+                                value={ANIMATION_SPEED_MS}
+                                onChange={this.handleAnimationSpeedChange}
                             ></input>
                         </div>
                     </div>

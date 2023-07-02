@@ -1,6 +1,5 @@
 import {resetAllBarColors, greenify} from "../SortingAlgos/CommonMethods/commonMethods";
-import { ANIMATION_SPEED_MS, 
-            PRIMARY_COLOR,
+import {    PRIMARY_COLOR,
             SECONDARY_COLOR,
             SAMESIZE_COLOR,
             DONE_COLOR } from "../SortingVisualizer/SortingVisualizer";
@@ -9,10 +8,10 @@ const SMALLER_COLOR = "#50af50";
 const LARGER_COLOR = "#f44336";
 
 /** The insertionSort function we are exporting with the animation array */
-export function insertionSortExp(array, arrayBars) {
+export function insertionSortExp(array, arrayBars, ANIMATION_SPEED_MS) {
     resetAllBarColors(arrayBars, PRIMARY_COLOR);        
     const [res, arr] = getInsertionSortAnimationArray(array.slice());
-    animate(res, arrayBars, 0);
+    animate(res, arrayBars, 0, ANIMATION_SPEED_MS);
     return [res, arr];
 }
 
@@ -65,7 +64,7 @@ function insertionSort(array, animations) {
 }
 
 /** Animates insertionSort */
-function animate(res, arrayBars, completedAnimations) {
+function animate(res, arrayBars, completedAnimations, ANIMATION_SPEED_MS) {
     for (let i = 0; i < res.length; i++) {
         const stage = i % 4;
 

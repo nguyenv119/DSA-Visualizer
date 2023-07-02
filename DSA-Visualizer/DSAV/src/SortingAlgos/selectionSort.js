@@ -1,6 +1,5 @@
 import {resetAllBarColors, greenify} from "./CommonMethods/commonMethods";
-import { ANIMATION_SPEED_MS, 
-            PRIMARY_COLOR,
+import {    PRIMARY_COLOR,
             SECONDARY_COLOR,
             SAMESIZE_COLOR,
             DONE_COLOR
@@ -11,10 +10,10 @@ const SMALLER_COLOR = "#50af50";
 const MIN_SOFAR_COLOR = "#9a17ff";
 
 /** The selectionSort function we are exporting with the animation array */
-export function selectionSortExp(array, arrayBars) {
+export function selectionSortExp(array, arrayBars, ANIMATION_SPEED_MS) {
     resetAllBarColors(arrayBars, PRIMARY_COLOR);        
     const [res, arr] = getSelectionSortAnimationArray(array.slice());
-    animate(res, arrayBars, 0, array.length);
+    animate(res, arrayBars, 0, array.length, ANIMATION_SPEED_MS);
     return [res, arr];
 }
 
@@ -93,7 +92,7 @@ function selectionSort(array, animations) {
 }
 
 /** Animates the selectionSort */
-function animate(res, arrayBars, completedAnimations, BARS) {
+function animate(res, arrayBars, completedAnimations, BARS, ANIMATION_SPEED_MS) {
     for (let i = 0; i < res.length; i++) {
         /** If we are on the last elment, this means that
          * in the selectionSort, i === array.length - 1,
