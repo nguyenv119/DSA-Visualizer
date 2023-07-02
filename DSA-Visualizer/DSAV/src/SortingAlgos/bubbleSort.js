@@ -4,14 +4,14 @@ import {    PRIMARY_COLOR,
             LARGER_COLOR,
             SMALLER_COLOR,
             SAMESIZE_COLOR,
-            DONE_COLOR,
-            BARS} from "../SortingVisualizer/SortingVisualizer";
+            DONE_COLOR
+        } from "../SortingVisualizer/SortingVisualizer";
 
 /** The bubbleSort function we are exporting with the animation array */
 export function bubbleSortExp(array, arrayBars, ANIMATION_SPEED_MS) {
     resetAllBarColors(arrayBars, PRIMARY_COLOR);        
     const [res, arr] = getBubbleSortAnimationArray(array.slice());
-    animate(res, arrayBars, 0, BARS - 1, ANIMATION_SPEED_MS);
+    animate(res, arrayBars, 0, array.length - 1, ANIMATION_SPEED_MS);
     return [res, arr];
 }
 
@@ -142,7 +142,6 @@ function animate(res, arrayBars, completedAnimations, toBeSortedIndex, ANIMATION
                 setTimeout(() => {
                     [barOneStyle.backgroundColor, barTwoStyle.backgroundColor] = [DONE_COLOR, DONE_COLOR];
                 }, (i) * ANIMATION_SPEED_MS);
-                // }, (i) * ANIMATION_SPEED_MS * 0.1);
             }
             completedAnimations++;
             setTimeout(() => {
@@ -154,7 +153,6 @@ function animate(res, arrayBars, completedAnimations, toBeSortedIndex, ANIMATION
                 } 
                 greenify(completedAnimations, res, arrayBars);
             }, (i + 1) * ANIMATION_SPEED_MS);
-            // }, (i + 1) * ANIMATION_SPEED_MS * 0.1);
         }
     }
 }
