@@ -3,8 +3,8 @@ import { ANIMATION_SPEED_MS,
             PRIMARY_COLOR,
             SECONDARY_COLOR,
             SAMESIZE_COLOR,
-            DONE_COLOR,
-            BARS } from "../SortingVisualizer/SortingVisualizer";
+            DONE_COLOR
+        } from "../SortingVisualizer/SortingVisualizer";
 
 const LARGER_COLOR = "#f44336";
 const SMALLER_COLOR = "#50af50";
@@ -14,7 +14,7 @@ const MIN_SOFAR_COLOR = "#9a17ff";
 export function selectionSortExp(array, arrayBars) {
     resetAllBarColors(arrayBars, PRIMARY_COLOR);        
     const [res, arr] = getSelectionSortAnimationArray(array.slice());
-    animate(res, arrayBars, 0, BARS);
+    animate(res, arrayBars, 0, array.length);
     return [res, arr];
 }
 
@@ -61,7 +61,6 @@ function selectionSort(array, animations) {
             /** Pass these indices into arrayBars to see which one larger, then switch COLORS */
             if (array[j] < array[min]) {
                 animations.push([j, min]);
-                // console.log(array[j], array[min]);
                 animations.push([array[j], array[min]]);
 
                 /** We push this here so every 3rd stage, 
@@ -101,7 +100,6 @@ function animate(res, arrayBars, completedAnimations, BARS) {
          * so we just set the bar to DONE_COLOR
          */
         if (i === res.length - 1) {
-            console.log("lol");
             const [lastBarIndex, IGNORE] = res[i];
             const lastBarStyle = arrayBars[lastBarIndex].style;
             setTimeout(() => {
