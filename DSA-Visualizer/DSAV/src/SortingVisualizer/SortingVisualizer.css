@@ -14,8 +14,6 @@
     -webkit-text-size-adjust: 100%;
 }
 
-
-
 .arrayContainer {
     display: flex;
     flex-direction: column;
@@ -26,7 +24,7 @@
   }
   
   .arrayBar {
-    width: 2px;
+    width: 10.5px;
     display: inline-block;
     margin: 0 2px 0 0;
   }
