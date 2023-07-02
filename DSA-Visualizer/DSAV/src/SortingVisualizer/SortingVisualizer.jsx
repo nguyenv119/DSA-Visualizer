@@ -13,7 +13,7 @@ import 'bootstrap/dist/css/bootstrap.css';
  */
 const MINVAL = 5;
 const MAXVAL = 650;
-export var BARS = 100;
+export var BARS = 150;
 export var ANIMATION_SPEED_MS = 4;
 export const GREEN_SPEED = 1;
 export const PRIMARY_COLOR = '#007ce8';
@@ -41,7 +41,7 @@ export default class SortingVisualizer extends React.Component {
             isSorting: false,
             buttonsDisabled: false,
             ANIMATION_SPEED_MS: 4, 
-            BARS: 100, 
+            BARS: 150, 
         };
     };
 
@@ -59,7 +59,7 @@ export default class SortingVisualizer extends React.Component {
         const arrayBars = document.getElementsByClassName("arrayBar");
         const { array, ANIMATION_SPEED_MS } = this.state;
         const speed = ANIMATION_SPEED_MS === 8 ?
-        0.1 : ANIMATION_SPEED_MS === 6 ?
+        0.5 : ANIMATION_SPEED_MS === 6 ?
             1.5 : ANIMATION_SPEED_MS === 4 ?
               15 : ANIMATION_SPEED_MS === 2 ?
                 100 : ANIMATION_SPEED_MS === 0 ?
@@ -85,7 +85,7 @@ export default class SortingVisualizer extends React.Component {
             /** Resets the color of array back to PRIMARY, and determines width and length */
             const arrayBars = document.getElementsByClassName("arrayBar");
             for (let i = 0; i < arrayBars.length; i++) {
-                arrayBars[i].style.width = `${610 / BARS}px`;
+                arrayBars[i].style.width = `${500 / BARS}px`;
                 arrayBars[i].style.backgroundColor = PRIMARY_COLOR;
             }
         });
@@ -174,12 +174,24 @@ export default class SortingVisualizer extends React.Component {
             <div className="arrayContainer">
                 <div className="buttons">
                     <div className="buttonGroup">
-                        <button onClick={() => this.makeArray()} disabled={isSorting}>Generate New Array</button>
-                        <button onClick={() => this.bubbleSort()} disabled={buttonsDisabled}>Bubble Sort</button>
-                        <button onClick={() => this.selectionSort()} disabled={buttonsDisabled}>Selection Sort</button>
-                        <button onClick={() => this.insertionSort()} disabled={buttonsDisabled}>Insertion Sort</button>
-                        <button onClick={() => this.mergeSort()} disabled={buttonsDisabled}>Merge Sort</button>
-                        <button onClick={() => this.heapSort()} disabled={buttonsDisabled}>Heap Sort</button>
+                        <div className="btn-container">
+                            <button className = "btn-3d regular" onClick={() => this.makeArray()} disabled={isSorting}>Generate New Array</button>
+                        </div>
+                        <div className="btn-container">
+                            <button className = "btn-3d regular" onClick={() => this.bubbleSort()} disabled={buttonsDisabled}>Bubble Sort</button>
+                        </div>
+                        <div className="btn-container">
+                            <button className = "btn-3d regular" onClick={() => this.selectionSort()} disabled={buttonsDisabled}>Selection Sort</button>
+                        </div>
+                        <div className="btn-container">
+                            <button className = "btn-3d regular" onClick={() => this.insertionSort()} disabled={buttonsDisabled}>Insertion Sort</button>
+                        </div>
+                        <div className="btn-container">
+                            <button className = "btn-3d regular" onClick={() => this.mergeSort()} disabled={buttonsDisabled}>Merge Sort</button>
+                        </div>
+                        <div className="btn-container">
+                            <button className = "btn-3d regular" onClick={() => this.heapSort()} disabled={buttonsDisabled}>Heap Sort</button>
+                        </div>
                     </div>
                 </div>
                 <div className="settings">
@@ -198,7 +210,7 @@ export default class SortingVisualizer extends React.Component {
                             ></input>
                         </div>
                     </div>
-                    <div className="colorful">
+                    <div className="btn-3d regular colorful speed">
                         Speed
                     </div>
                     <div className="scrollableRangeContainer">
@@ -216,7 +228,7 @@ export default class SortingVisualizer extends React.Component {
                             ></input>
                         </div>
                     </div>
-                    <div className="colorful">
+                    <div className="colorful btn-3d regular length">
                         Array Length
                     </div>
                 </div>
