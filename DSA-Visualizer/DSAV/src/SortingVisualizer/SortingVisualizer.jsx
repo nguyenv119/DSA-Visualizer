@@ -6,14 +6,10 @@ import {insertionSortExp} from "../SortingAlgos/insertionSort"
 import {heapSortExp} from "../SortingAlgos/heapSort"
 import 'bootstrap/dist/css/bootstrap.css';
 
-/** 
- * ! need to have some formula to calculate restating of properties with
- * ! relation to BARS, ANIMATION SPEED, and TYPE OF SORTING
- */
 const MINVAL = 5;
 const MAXVAL = 650;
 export var BARS = 150;
-export var ANIMATION_SPEED_MS = 4;
+export var ANIMATION_SPEED_MS = 6;
 export const GREEN_SPEED = 1;
 export const PRIMARY_COLOR = '#007ce8';
 export const SECONDARY_COLOR = '#fe5f24';
@@ -22,6 +18,23 @@ export const LARGER_COLOR = "#50af50"
 export const SAMESIZE_COLOR = "#f1cc32";
 export const SMALLEST_SOFAR_COLOR = "#FC0FC0"
 export const DONE_COLOR = "rgba(255, 0, 166, 0.87)";
+
+
+
+                                    /* 
+                                    TODO:
+
+                                    ! Like the animation speed, make the bars dependent on how many bars there are,
+                                    ! using predictable steps in the HTML and 
+                                    * ? : formatting
+
+                                    ? Also, need to fix ability to change length while animating,
+                                    ? also need to make speed accessible during animating
+                                    ? also need to do heapSort
+                                    */
+
+
+
 
 /* export default class defines the class we want to have as a tag*/
 export default class SortingVisualizer extends React.Component {
@@ -39,7 +52,7 @@ export default class SortingVisualizer extends React.Component {
             array: [],
             isSorting: false,
             buttonsDisabled: false,
-            ANIMATION_SPEED_MS: 4, 
+            ANIMATION_SPEED_MS: 6, 
             BARS: 100, 
         };
     };
@@ -57,12 +70,13 @@ export default class SortingVisualizer extends React.Component {
         this.setState({ buttonsDisabled: true, isSorting: true });
         const arrayBars = document.getElementsByClassName("arrayBar");
         const { array, ANIMATION_SPEED_MS } = this.state;
-        const speed = ANIMATION_SPEED_MS === 8 ?
-        0.5 : ANIMATION_SPEED_MS === 6 ?
-            1.5 : ANIMATION_SPEED_MS === 4 ?
-              15 : ANIMATION_SPEED_MS === 2 ?
-                100 : ANIMATION_SPEED_MS === 0 ?
-                  1000 : 3000;
+        const speed = ANIMATION_SPEED_MS === 10?
+        1 : ANIMATION_SPEED_MS === 8 ?
+            4 : ANIMATION_SPEED_MS === 6 ?
+                10 : ANIMATION_SPEED_MS === 4 ?
+                    100 : ANIMATION_SPEED_MS === 2 ?
+                        500 : ANIMATION_SPEED_MS === 0 ?
+                            1000 : 3000;
         
         return [array, arrayBars, speed];
     }
@@ -81,7 +95,7 @@ export default class SortingVisualizer extends React.Component {
          */
         this.setState({ array, BARS }, () => {
             
-            /** Resets the color of array back to PRIMARY, and determines width and length */
+            /** Resets the color of array back to PRIMARY, and determines width and length */            
             const arrayBars = document.getElementsByClassName("arrayBar");
             for (let i = 0; i < arrayBars.length; i++) {
                 arrayBars[i].style.width = `${777 / BARS}px`;
@@ -201,7 +215,7 @@ export default class SortingVisualizer extends React.Component {
                                 type="range"
                                 className="form-range"
                                 min="0"
-                                max="8"
+                                max="10"
                                 step="2"
                                 id="customRange3"
                                 value={ANIMATION_SPEED_MS}
