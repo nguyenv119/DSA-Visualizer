@@ -1,3 +1,16 @@
+
+
+
+                                    /* 
+                                    TODO:
+                                    * ? : formatting
+                                    ? Pop ups/down thing to show code while its running, explain runtime
+                                    ? need to do heapSort
+                                    */
+
+
+
+
 import React from "react";
 import {mergeSortExp} from "../SortingAlgos/mergeSort"
 import {bubbleSortExp} from "../SortingAlgos/bubbleSort"
@@ -8,8 +21,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 const MINVAL = 5;
 const MAXVAL = 625;
-export var BARS = 10;
-export var ANIMATION_SPEED_MS = 6;
 export const GREEN_SPEED = 1;
 export const PRIMARY_COLOR = '#007ce8';
 export const SECONDARY_COLOR = '#fe5f24';
@@ -19,31 +30,21 @@ export const SAMESIZE_COLOR = "#f1cc32";
 export const SMALLEST_SOFAR_COLOR = "#FC0FC0"
 export const DONE_COLOR = "rgba(255, 0, 166, 0.87)";
 
-
-
-                                    /* 
-                                    TODO:
-                                    * ? : formatting
-
-                                    ? also need to make speed accessible during animating
-                                    ? also need to do heapSort
-                                    */
-
-
-
-
 /* export default class defines the class we want to have as a tag*/
 export default class SortingVisualizer extends React.Component {
 
-    /** Called when react component is created 
+    /* 
+    ? Called when react component is created 
      * props = properties, passed down from parent comp 
      * (component where this component is called):
     */
     constructor(props) {
-        /** Gets data */
+        /* 
+        ? Gets data */
         super(props);
 
-        /** Init the initial state of component */
+        /* 
+        ? Init the initial state of component */
         this.state = {
             array: [],
             sortingAlgorithm: null,
@@ -52,11 +53,13 @@ export default class SortingVisualizer extends React.Component {
             ANIMATION_SPEED_MS: 6, 
             BARS: 10, 
             sortingInProgress: false, 
-            activeButton: null
+            activeButton: null,
+            comparisons: 0
         };
     };
 
-    /** Lifecycle method in React class component 
+    /* 
+    ? Lifecycle method in React class component 
      * invoked immedientally after a component is 
      * mounted (inserted into DOM tree), rendered for the first time
      */
@@ -64,8 +67,9 @@ export default class SortingVisualizer extends React.Component {
         this.makeArray()
     }
 
-    /** Create properties before sorting: arrayBars, array, and speed*/
-        makeProps() {
+    /* 
+    ? Create properties before sorting: arrayBars, array, and speed*/
+    makeProps() {
 
         this.setState({ buttonsDisabled: true, isSorting: true, sortingInProgress: true });
         const arrayBars = document.getElementsByClassName("arrayBar");
@@ -81,6 +85,8 @@ export default class SortingVisualizer extends React.Component {
         return [array, arrayBars, speed];
     }
 
+    /* 
+    ? Determines how many bars based on scrolling bar */
     determineBars() {
         const { BARS } = this.state;
         const length = BARS === 20 ? 
@@ -103,7 +109,8 @@ export default class SortingVisualizer extends React.Component {
         return length;
     }
  
-    /** Create the array, including how many bars and how wide */
+    /* 
+    ? Create the array, including how many bars and how wide */
     makeArray() {
         
         const array = [];
@@ -113,13 +120,15 @@ export default class SortingVisualizer extends React.Component {
             array.push(randomIntFrom(MINVAL, MAXVAL));
         }
 
-        /** Sets the state to be the created array and the Bars.
+        /* 
+        ? Sets the state to be the created array and the Bars.
          * If we didnt have setState, we wouldnt
          * update the array we created
          */
         this.setState({ array }, () => {
             
-            /** Resets the color of array back to PRIMARY, and determines width and length */            
+            /* 
+            ? Resets the color of array back to PRIMARY, and determines width and length */            
             const arrayBars = document.getElementsByClassName("arrayBar");
             for (let i = 0; i < arrayBars.length; i++) {
                 arrayBars[i].style.width = `${500 / length}px`;
@@ -128,7 +137,8 @@ export default class SortingVisualizer extends React.Component {
         });
     }
 
-    /** For all sorting algos, we are returned an animation array, and a copy
+    /* 
+     * For all sorting algos, we are returned an animation array, and a copy
      * of the sorted array. At the end of every animation, we set the state
      * to be the sorted array, as to not redo the animations on the unsorted array
      * if it were not replaced with the sorted array */ 
@@ -177,7 +187,8 @@ export default class SortingVisualizer extends React.Component {
         }, (res.length) * ANIMATION_SPEED_MS);
     }
     
-    /** Updates the number of bars and their width */  
+    /* 
+    ? Updates the number of bars and their width */  
     handleBarsChange = (e) => {
         if (!this.state.isSorting) {
             this.setState({ BARS: parseInt(e.target.value) }, () => {
@@ -186,7 +197,8 @@ export default class SortingVisualizer extends React.Component {
         }
     };
 
-    /** Changes the speed of animation */
+    /* 
+    ? Changes the speed of animation */
     handleAnimationSpeedChange = (e) => {
         if (!this.state.isSorting) {
             const newSpeed = parseInt(e.target.value);
@@ -194,27 +206,30 @@ export default class SortingVisualizer extends React.Component {
         }
     };
     
-    /** Changes the state of the button that is being pressed down */
+    /* 
+    ? Changes the state of the button that is being pressed down */
     buttonDown = (buttonName) => {
         this.setState({ activeButton: buttonName });
     };
 
-    /** Renders components UI */
+    /* 
+    ? Renders components UI */
     render() {
-        /** Gets the state (array we created) out of the object, 
+        /* 
+        ? Gets the state (array we created) out of the object, 
          * We need the {}, won't work with just array
         */
-        const { array, activeButton, isSorting, ANIMATION_SPEED_MS, BARS } = this.state;
+        const { array, activeButton, isSorting, ANIMATION_SPEED_MS, BARS, comparisons } = this.state;
         return (
-            /** Map = go through each num in array, extracting value and index
-             * and making it into a bar:
+            /* 
+            ? Map = go through each num in array, extracting value and index and making it into a bar:
              * 
              * Can put any variable name because when we call array.map, 
              * 2 parameters are returned: value and index, so the callback function
              * knows to associate.
              * 
              * ref: https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_map3
-             */
+            */
 
             <div className="arrayContainer">
                 <div>
@@ -307,6 +322,9 @@ export default class SortingVisualizer extends React.Component {
                         <div className="colorful btn-3d regular length">
                             Array Length
                         </div>
+                        <div className="btn-3d regular comparisons">
+                            {comparisons} Comparisions
+                        </div>
                     </div>
                 </div>
                 <div className="arrayBars">
@@ -326,9 +344,13 @@ export default class SortingVisualizer extends React.Component {
     }
 }
 
-/* Put functions outside */
+/*
+! Put functions outside 
+*/
 
-/** Generates random int from min to max */
+/* 
+? Generates random int from min to max 
+*/
 function randomIntFrom(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }

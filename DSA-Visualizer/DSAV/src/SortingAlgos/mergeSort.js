@@ -4,8 +4,8 @@ import {    PRIMARY_COLOR,
             LARGER_COLOR,
             SMALLER_COLOR,
             SAMESIZE_COLOR,
-            DONE_COLOR, 
-            ANIMATION_SPEED_MS} from "../SortingVisualizer/SortingVisualizer";
+            DONE_COLOR
+        } from "../SortingVisualizer/SortingVisualizer";
 
 /** The mergeSort function we are exporting with the animation array */
 export function mergeSortExp(array, arrayBars, ANIMATION_SPEED_MS) {
