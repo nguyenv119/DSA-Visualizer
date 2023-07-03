@@ -23,12 +23,8 @@ export const DONE_COLOR = "rgba(255, 0, 166, 0.87)";
 
                                     /* 
                                     TODO:
-
-                                    ! Like the animation speed, make the bars dependent on how many bars there are,
-                                    ! using predictable steps in the HTML and 
                                     * ? : formatting
 
-                                    ? Also, need to fix ability to change length while animating,
                                     ? also need to make speed accessible during animating
                                     ? also need to do heapSort
                                     */
@@ -55,6 +51,8 @@ export default class SortingVisualizer extends React.Component {
             buttonsDisabled: false,
             ANIMATION_SPEED_MS: 6, 
             BARS: 10, 
+            sortingInProgress: false, 
+            activeButton: null
         };
     };
 
@@ -67,8 +65,9 @@ export default class SortingVisualizer extends React.Component {
     }
 
     /** Create properties before sorting: arrayBars, array, and speed*/
-    makeProps() {
-        this.setState({ buttonsDisabled: true, isSorting: true });
+        makeProps() {
+
+        this.setState({ buttonsDisabled: true, isSorting: true, sortingInProgress: true });
         const arrayBars = document.getElementsByClassName("arrayBar");
         const { array, ANIMATION_SPEED_MS } = this.state;
         const speed = ANIMATION_SPEED_MS === 10?
@@ -134,52 +133,47 @@ export default class SortingVisualizer extends React.Component {
      * to be the sorted array, as to not redo the animations on the unsorted array
      * if it were not replaced with the sorted array */ 
     bubbleSort() {
-        this.setState({ sortingAlgorithm: "bubbleSort" })
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
         let [res, arr] = bubbleSortExp(array, arrayBars, ANIMATION_SPEED_MS);
 
         setTimeout(() => {
-            this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingAlgorithm: null });
+            this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingInProgress: false});
         }, (res.length) * ANIMATION_SPEED_MS);
     }
 
     selectionSort() {
-        this.setState({ sortingAlgorithm: "selectionSort" })
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
         let [res, arr] = selectionSortExp(array, arrayBars, ANIMATION_SPEED_MS);
 
         setTimeout(() => {
-            this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingAlgorithm: null });
+            this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingInProgress: false});
         }, (res.length) * ANIMATION_SPEED_MS);
     }
 
     insertionSort() {
-        this.setState({ sortingAlgorithm: "insertionSort" })
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
         let [res, arr] = insertionSortExp(array, arrayBars, ANIMATION_SPEED_MS);
 
         setTimeout(() => {
-            this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingAlgorithm: null });
+            this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingInProgress: false});
         }, (res.length) * ANIMATION_SPEED_MS);
     }
     
     mergeSort() {
-        this.setState({ sortingAlgorithm: "mergeeSort" })
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
         let [res, arr] = mergeSortExp(array, arrayBars, ANIMATION_SPEED_MS);
 
         setTimeout(() => {
-            this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingAlgorithm: null });
+            this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingInProgress: false});
         }, (res.length * 1.15) * ANIMATION_SPEED_MS);
     }
 
     heapSort() {
-        this.setState({ sortingAlgorithm: "heapSort" })
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
         let [res, arr] = heapSortExp(array, arrayBars, ANIMATION_SPEED_MS);
 
         setTimeout(() => {
-            this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingAlgorithm: null });
+            this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingInProgress: false});
         }, (res.length) * ANIMATION_SPEED_MS);
     }
     
@@ -192,21 +186,25 @@ export default class SortingVisualizer extends React.Component {
         }
     };
 
-
+    /** Changes the speed of animation */
     handleAnimationSpeedChange = (e) => {
         if (!this.state.isSorting) {
             const newSpeed = parseInt(e.target.value);
             this.setState({ ANIMATION_SPEED_MS: newSpeed });
         }
     };
+    
+    /** Changes the state of the button that is being pressed down */
+    buttonDown = (buttonName) => {
+        this.setState({ activeButton: buttonName });
+    };
 
-      
     /** Renders components UI */
     render() {
         /** Gets the state (array we created) out of the object, 
          * We need the {}, won't work with just array
         */
-        const { array, buttonsDisabled, isSorting, ANIMATION_SPEED_MS, BARS } = this.state;
+        const { array, activeButton, isSorting, ANIMATION_SPEED_MS, BARS } = this.state;
         return (
             /** Map = go through each num in array, extracting value and index
              * and making it into a bar:
@@ -223,22 +221,52 @@ export default class SortingVisualizer extends React.Component {
                     <div className="buttonContainer">
                         <div className="buttonGroup">
                             <div className="btn-container">
-                                <button className = "btn-3d regular" onClick={() => this.makeArray()} disabled={isSorting}>Generate New Array</button>
+                                <button className = {`btn-3d regular${activeButton === "generateArray" ? ' down' : ''}`} 
+                                onClick={() => {
+                                    this.makeArray();
+                                    this.buttonDown("generateArray");
+                                }} 
+                                disabled={isSorting}>Generate New Array</button>
                             </div>
                             <div className="btn-container">
-                                <button className = "btn-3d regular" onClick={() => this.bubbleSort()} disabled={buttonsDisabled}>Bubble Sort</button>
+                                <button className = {`btn-3d regular${activeButton === "bubbleSort" ? ' down' : ''}`} 
+                                onClick={() => {
+                                    this.bubbleSort()
+                                    this.buttonDown("bubbleSort");
+                                }} 
+                                disabled={this.state.sortingInProgress}>Bubble Sort</button>
                             </div>
                             <div className="btn-container">
-                                <button className = "btn-3d regular" onClick={() => this.selectionSort()} disabled={buttonsDisabled}>Selection Sort</button>
+                                <button className = {`btn-3d regular${activeButton === "selectionSort" ? ' down' : ''}`} 
+                                onClick={() => {
+                                    this.selectionSort()
+                                    this.buttonDown("selectionSort");
+                                }}
+                                disabled={this.state.sortingInProgress}>Selection Sort</button>
                             </div>
                             <div className="btn-container">
-                                <button className = "btn-3d regular" onClick={() => this.insertionSort()} disabled={buttonsDisabled}>Insertion Sort</button>
+                                <button className = {`btn-3d regular${activeButton === "insertionSort" ? ' down' : ''}`} 
+                                onClick={() => {
+                                    this.insertionSort()
+                                    this.buttonDown("insertionSort");
+                                }} 
+                                disabled={this.state.sortingInProgress}>Insertion Sort</button>
                             </div>
                             <div className="btn-container">
-                                <button className = "btn-3d regular" onClick={() => this.mergeSort()} disabled={buttonsDisabled}>Merge Sort</button>
+                                <button className = {`btn-3d regular${activeButton === "mergeSort" ? ' down' : ''}`} 
+                                onClick={() => {
+                                    this.mergeSort()
+                                    this.buttonDown("mergeSort");
+                                }
+                                } disabled={this.state.sortingInProgress}>Merge Sort</button>
                             </div>
                             <div className="btn-container">
-                                <button className = "btn-3d regular" onClick={() => this.heapSort()} disabled={buttonsDisabled}>Heap Sort</button>
+                                <button className = {`btn-3d regular${activeButton === "heapSort" ? ' down' : ''}`} 
+                                onClick={() => {
+                                    this.heapSort()
+                                    this.buttonDown("heapSort");
+                                }} 
+                                disabled={this.state.sortingInProgress}>Heap Sort</button>
                             </div>
                         </div>
                     </div>
