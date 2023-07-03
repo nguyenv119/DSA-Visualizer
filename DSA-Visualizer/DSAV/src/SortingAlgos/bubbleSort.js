@@ -7,6 +7,7 @@ import {    PRIMARY_COLOR,
             DONE_COLOR
         } from "../SortingVisualizer/SortingVisualizer";
 
+const GOOD_COLOR = "#9706ff";
 /** The bubbleSort function we are exporting with the animation array */
 export function bubbleSortExp(array, arrayBars, ANIMATION_SPEED_MS) {
     resetAllBarColors(arrayBars, PRIMARY_COLOR);        
@@ -140,7 +141,7 @@ function animate(res, arrayBars, completedAnimations, toBeSortedIndex, ANIMATION
             /** if not, set both bars to purple */
             else {
                 setTimeout(() => {
-                    [barOneStyle.backgroundColor, barTwoStyle.backgroundColor] = [DONE_COLOR, DONE_COLOR];
+                    [barOneStyle.backgroundColor, barTwoStyle.backgroundColor] = [GOOD_COLOR, GOOD_COLOR];
                 }, (i) * ANIMATION_SPEED_MS);
             }
             completedAnimations++;

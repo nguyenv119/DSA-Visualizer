@@ -7,8 +7,8 @@ import {heapSortExp} from "../SortingAlgos/heapSort"
 import 'bootstrap/dist/css/bootstrap.css';
 
 const MINVAL = 5;
-const MAXVAL = 650;
-export var BARS = 150;
+const MAXVAL = 625;
+export var BARS = 10;
 export var ANIMATION_SPEED_MS = 6;
 export const GREEN_SPEED = 1;
 export const PRIMARY_COLOR = '#007ce8';
@@ -50,10 +50,11 @@ export default class SortingVisualizer extends React.Component {
         /** Init the initial state of component */
         this.state = {
             array: [],
+            sortingAlgorithm: null,
             isSorting: false,
             buttonsDisabled: false,
             ANIMATION_SPEED_MS: 6, 
-            BARS: 100, 
+            BARS: 10, 
         };
     };
 
@@ -80,12 +81,36 @@ export default class SortingVisualizer extends React.Component {
         
         return [array, arrayBars, speed];
     }
+
+    determineBars() {
+        const { BARS } = this.state;
+        const length = BARS === 20 ? 
+            300 : BARS === 19 ? 
+                290 : BARS === 18 ? 
+                    260 : BARS === 17 ? 
+                        230 : BARS === 16 ? 
+                            200 : BARS === 15 ? 
+                                180 : BARS === 14 ? 
+                                    160 : BARS === 13 ? 
+                                        145 : BARS === 12 ? 
+                                            120 : BARS === 11 ? 
+                                                100 : BARS === 10 ? 
+                                                    80 : BARS === 9 ? 
+                                                        60 : BARS === 8 ? 
+                                                            40 : BARS === 7 ? 
+                                                                20 : BARS === 6 ? 
+                                                                    10 : BARS === 5  
+                                                                        ? 5 : 5;
+        return length;
+    }
  
     /** Create the array, including how many bars and how wide */
     makeArray() {
-        const { BARS } = this.state;
+        
         const array = [];
-        for (let i = 0; i < BARS; i++) {
+        let length = this.determineBars();
+
+        for (let i = 0; i < length; i++) {
             array.push(randomIntFrom(MINVAL, MAXVAL));
         }
 
@@ -93,12 +118,12 @@ export default class SortingVisualizer extends React.Component {
          * If we didnt have setState, we wouldnt
          * update the array we created
          */
-        this.setState({ array, BARS }, () => {
+        this.setState({ array }, () => {
             
             /** Resets the color of array back to PRIMARY, and determines width and length */            
             const arrayBars = document.getElementsByClassName("arrayBar");
             for (let i = 0; i < arrayBars.length; i++) {
-                arrayBars[i].style.width = `${777 / BARS}px`;
+                arrayBars[i].style.width = `${500 / length}px`;
                 arrayBars[i].style.backgroundColor = PRIMARY_COLOR;
             }
         });
@@ -109,64 +134,73 @@ export default class SortingVisualizer extends React.Component {
      * to be the sorted array, as to not redo the animations on the unsorted array
      * if it were not replaced with the sorted array */ 
     bubbleSort() {
+        this.setState({ sortingAlgorithm: "bubbleSort" })
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
         let [res, arr] = bubbleSortExp(array, arrayBars, ANIMATION_SPEED_MS);
 
         setTimeout(() => {
-            this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
+            this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingAlgorithm: null });
         }, (res.length) * ANIMATION_SPEED_MS);
     }
 
     selectionSort() {
+        this.setState({ sortingAlgorithm: "selectionSort" })
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
         let [res, arr] = selectionSortExp(array, arrayBars, ANIMATION_SPEED_MS);
 
         setTimeout(() => {
-            this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
+            this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingAlgorithm: null });
         }, (res.length) * ANIMATION_SPEED_MS);
     }
 
     insertionSort() {
+        this.setState({ sortingAlgorithm: "insertionSort" })
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
         let [res, arr] = insertionSortExp(array, arrayBars, ANIMATION_SPEED_MS);
 
         setTimeout(() => {
-            this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
+            this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingAlgorithm: null });
         }, (res.length) * ANIMATION_SPEED_MS);
     }
     
     mergeSort() {
+        this.setState({ sortingAlgorithm: "mergeeSort" })
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
         let [res, arr] = mergeSortExp(array, arrayBars, ANIMATION_SPEED_MS);
 
         setTimeout(() => {
-            this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
+            this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingAlgorithm: null });
         }, (res.length * 1.15) * ANIMATION_SPEED_MS);
     }
 
     heapSort() {
+        this.setState({ sortingAlgorithm: "heapSort" })
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
         let [res, arr] = heapSortExp(array, arrayBars, ANIMATION_SPEED_MS);
 
         setTimeout(() => {
-            this.setState({ array: arr, buttonsDisabled: false, isSorting: false });
+            this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingAlgorithm: null });
         }, (res.length) * ANIMATION_SPEED_MS);
     }
     
-    /** Updates the animation speed */
-    handleAnimationSpeedChange = (e) => {
-        const newSpeed = parseInt(e.target.value);
-        this.setState({ ANIMATION_SPEED_MS: newSpeed });
-    };
-      
     /** Updates the number of bars and their width */  
     handleBarsChange = (e) => {
-        this.setState({ BARS: parseInt(e.target.value) }, () => {
-            this.makeArray();
-        });
+        if (!this.state.isSorting) {
+            this.setState({ BARS: parseInt(e.target.value) }, () => {
+                this.makeArray();
+            });
+        }
     };
+
+
+    handleAnimationSpeedChange = (e) => {
+        if (!this.state.isSorting) {
+            const newSpeed = parseInt(e.target.value);
+            this.setState({ ANIMATION_SPEED_MS: newSpeed });
+        }
+    };
+
       
-        
     /** Renders components UI */
     render() {
         /** Gets the state (array we created) out of the object, 
@@ -185,64 +219,66 @@ export default class SortingVisualizer extends React.Component {
              */
 
             <div className="arrayContainer">
-                <div className="buttons">
-                    <div className="buttonGroup">
-                        <div className="btn-container">
-                            <button className = "btn-3d regular" onClick={() => this.makeArray()} disabled={isSorting}>Generate New Array</button>
-                        </div>
-                        <div className="btn-container">
-                            <button className = "btn-3d regular" onClick={() => this.bubbleSort()} disabled={buttonsDisabled}>Bubble Sort</button>
-                        </div>
-                        <div className="btn-container">
-                            <button className = "btn-3d regular" onClick={() => this.selectionSort()} disabled={buttonsDisabled}>Selection Sort</button>
-                        </div>
-                        <div className="btn-container">
-                            <button className = "btn-3d regular" onClick={() => this.insertionSort()} disabled={buttonsDisabled}>Insertion Sort</button>
-                        </div>
-                        <div className="btn-container">
-                            <button className = "btn-3d regular" onClick={() => this.mergeSort()} disabled={buttonsDisabled}>Merge Sort</button>
-                        </div>
-                        <div className="btn-container">
-                            <button className = "btn-3d regular" onClick={() => this.heapSort()} disabled={buttonsDisabled}>Heap Sort</button>
-                        </div>
-                    </div>
-                </div>
-                <div className="settings">
-                    <div className="scrollableRangeContainer">
-                        <label for="customRange3" className="form-label"></label>
-                        <div className="scrollableRange">
-                            <input
-                                type="range"
-                                className="form-range"
-                                min="0"
-                                max="10"
-                                step="2"
-                                id="customRange3"
-                                value={ANIMATION_SPEED_MS}
-                                onChange={this.handleAnimationSpeedChange}
-                            ></input>
+                <div>
+                    <div className="buttonContainer">
+                        <div className="buttonGroup">
+                            <div className="btn-container">
+                                <button className = "btn-3d regular" onClick={() => this.makeArray()} disabled={isSorting}>Generate New Array</button>
+                            </div>
+                            <div className="btn-container">
+                                <button className = "btn-3d regular" onClick={() => this.bubbleSort()} disabled={buttonsDisabled}>Bubble Sort</button>
+                            </div>
+                            <div className="btn-container">
+                                <button className = "btn-3d regular" onClick={() => this.selectionSort()} disabled={buttonsDisabled}>Selection Sort</button>
+                            </div>
+                            <div className="btn-container">
+                                <button className = "btn-3d regular" onClick={() => this.insertionSort()} disabled={buttonsDisabled}>Insertion Sort</button>
+                            </div>
+                            <div className="btn-container">
+                                <button className = "btn-3d regular" onClick={() => this.mergeSort()} disabled={buttonsDisabled}>Merge Sort</button>
+                            </div>
+                            <div className="btn-container">
+                                <button className = "btn-3d regular" onClick={() => this.heapSort()} disabled={buttonsDisabled}>Heap Sort</button>
+                            </div>
                         </div>
                     </div>
-                    <div className="btn-3d regular colorful speed">
-                        Speed
-                    </div>
-                    <div className="scrollableRangeContainer">
-                        <label for="customRange4" className="form-label"></label>
-                        <div className="scrollableRange">
-                            <input
-                                type="range"
-                                className="form-range"
-                                min="5"
-                                max="308"
-                                step="25"
-                                id="customRange4"
-                                value={BARS}
-                                onChange={this.handleBarsChange}
-                            ></input>
+                    <div className="settings">
+                        <div className="scrollableRangeContainer">
+                            <label for="customRange3" className="form-label"></label>
+                            <div className="scrollableRange">
+                                <input
+                                    type="range"
+                                    className="form-range"
+                                    min="0"
+                                    max="10"
+                                    step="2"
+                                    id="customRange3"
+                                    value={ANIMATION_SPEED_MS}
+                                    onChange={this.handleAnimationSpeedChange}
+                                ></input>
+                            </div>
                         </div>
-                    </div>
-                    <div className="colorful btn-3d regular length">
-                        Array Length
+                        <div className="btn-3d regular colorful speed">
+                            Speed
+                        </div>
+                        <div className="scrollableRangeContainer">
+                            <label for="customRange4" className="form-label"></label>
+                            <div className="scrollableRange">
+                                <input
+                                    type="range"
+                                    className="form-range"
+                                    min="5"
+                                    max="20"
+                                    step="1"
+                                    id="customRange4"
+                                    value={BARS}
+                                    onChange={this.handleBarsChange}
+                                ></input>
+                            </div>
+                        </div>
+                        <div className="colorful btn-3d regular length">
+                            Array Length
+                        </div>
                     </div>
                 </div>
                 <div className="arrayBars">
