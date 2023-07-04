@@ -8,11 +8,11 @@ import {    PRIMARY_COLOR,
         } from "../SortingVisualizer/SortingVisualizer";
 
 /** The mergeSort function we are exporting with the animation array */
-export function mergeSortExp(array, arrayBars, ANIMATION_SPEED_MS) {
+export function mergeSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, updateComparisons) {
     resetAllBarColors(arrayBars, PRIMARY_COLOR);        
     const [res, arr] = getMergeSortAnimationArray(array.slice());
-    animate(res, arrayBars, 0, ANIMATION_SPEED_MS);
-    return [res, arr];
+    animate(res, arrayBars, 0, ANIMATION_SPEED_MS, comparisons, updateComparisons);
+    return [res, arr, comparisons];
 }
 
 /**
@@ -108,7 +108,7 @@ function mergeSort(array, l, r, copy, animations) {
 }
 
 /** Animates mergeSort */
-function animate(res, arrayBars, completedAnimations, ANIMATION_SPEED_MS) {
+function animate(res, arrayBars, completedAnimations, ANIMATION_SPEED_MS, comparisons, updateComparisons) {
         for (let i = 0; i < res.length; i++) {
             const stage = i % 4;
             
@@ -119,9 +119,10 @@ function animate(res, arrayBars, completedAnimations, ANIMATION_SPEED_MS) {
               setTimeout(() => {
                 barOneStyle.backgroundColor = SECONDARY_COLOR;
                 barTwoStyle.backgroundColor = SECONDARY_COLOR;
+                updateComparisons(comparisons + 1)
+                comparisons++;
                 completedAnimations += 2;
               }, (i) * ANIMATION_SPEED_MS);
-
               setTimeout(() => {
                 barOneStyle.backgroundColor = PRIMARY_COLOR;
                 barTwoStyle.backgroundColor = PRIMARY_COLOR;
@@ -139,14 +140,14 @@ function animate(res, arrayBars, completedAnimations, ANIMATION_SPEED_MS) {
                             largeBarStyle.backgroundColor = SAMESIZE_COLOR;
                         }
                         else {
-                            smallBarStyle.backgroundColor = SMALLER_COLOR;
-                            largeBarStyle.backgroundColor = LARGER_COLOR;
+                            smallBarStyle.backgroundColor = LARGER_COLOR;
+                            largeBarStyle.backgroundColor = SMALLER_COLOR;
                         }
-                    }, (i) * ANIMATION_SPEED_MS);
+                    }, (i - 1) * ANIMATION_SPEED_MS);
                     setTimeout(() => {
                         smallBarStyle.backgroundColor = PRIMARY_COLOR;
                         largeBarStyle.backgroundColor = PRIMARY_COLOR;
-                    }, (i + 1) * ANIMATION_SPEED_MS);
+                    }, (i) * ANIMATION_SPEED_MS);
                 }
                 completedAnimations++;
             } 
@@ -158,11 +159,11 @@ function animate(res, arrayBars, completedAnimations, ANIMATION_SPEED_MS) {
                     barOneStyle.backgroundColor = DONE_COLOR;
                     completedAnimations++;
                     greenify(completedAnimations, res, arrayBars);
-                }, i * ANIMATION_SPEED_MS);
+                }, (i - 1) * ANIMATION_SPEED_MS);
                 setTimeout(() => {
                     barOneStyle.backgroundColor = PRIMARY_COLOR;
                     greenify(completedAnimations, res, arrayBars);
-                }, (i + 1) * ANIMATION_SPEED_MS);
+                }, (i) * ANIMATION_SPEED_MS);
             }
           }
     }

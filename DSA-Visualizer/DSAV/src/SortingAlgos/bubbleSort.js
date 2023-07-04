@@ -9,10 +9,10 @@ import {    PRIMARY_COLOR,
 
 const GOOD_COLOR = "#9706ff";
 /** The bubbleSort function we are exporting with the animation array */
-export function bubbleSortExp(array, arrayBars, ANIMATION_SPEED_MS) {
+export function bubbleSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, updateComparisons) {
     resetAllBarColors(arrayBars, PRIMARY_COLOR);        
     const [res, arr] = getBubbleSortAnimationArray(array.slice());
-    animate(res, arrayBars, 0, array.length - 1, ANIMATION_SPEED_MS);
+    animate(res, arrayBars, 0, array.length - 1, ANIMATION_SPEED_MS, comparisons, updateComparisons);
     return [res, arr];
 }
 
@@ -72,9 +72,8 @@ function bubbleSort(array, animations) {
 }
 
 /** Animates bubbleSort */
-function animate(res, arrayBars, completedAnimations, toBeSortedIndex, ANIMATION_SPEED_MS) {
+function animate(res, arrayBars, completedAnimations, toBeSortedIndex, ANIMATION_SPEED_MS, comparisons, updateComparisons) {
     for (let i = 0; i < res.length; i++) {
-        /** Stage either 0 or 1, since animations come in pairs */
         const stage = i % 3;
 
         if (stage === 0) {
@@ -84,13 +83,10 @@ function animate(res, arrayBars, completedAnimations, toBeSortedIndex, ANIMATION
             setTimeout(() => {
                 barOneStyle.backgroundColor = SECONDARY_COLOR;
                 barTwoStyle.backgroundColor = SECONDARY_COLOR;
+                updateComparisons(comparisons + 1)
+                comparisons++;
                 completedAnimations++;
               }, (i) * ANIMATION_SPEED_MS);
-
-              setTimeout(() => {
-                barOneStyle.backgroundColor = PRIMARY_COLOR;
-                barTwoStyle.backgroundColor = PRIMARY_COLOR;
-            }, (i + 1) * ANIMATION_SPEED_MS);
         }
         else if (stage === 1) {
             const [indexJ, indexJ1] = res[i - 1];

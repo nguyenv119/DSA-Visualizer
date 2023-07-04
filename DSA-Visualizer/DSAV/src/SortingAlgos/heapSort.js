@@ -7,11 +7,11 @@ import {    PRIMARY_COLOR,
             DONE_COLOR } from "../SortingVisualizer/SortingVisualizer";
 
 /** The heapSort function we are exporting with the animation array */
-export function heapSortExp(array, arrayBars, ANIMATION_SPEED_MS) {
+export function heapSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons) {
     resetAllBarColors(arrayBars, PRIMARY_COLOR);
     const [res, arr] = getHeapSortAnimationArray(array.slice());
-    animate(res, arrayBars, 0, BARS - 1, ANIMATION_SPEED_MS);
-    return [res, arr];
+    animate(res, arrayBars, 0, BARS - 1, ANIMATION_SPEED_MS, comparisons);
+    return [res, arr, comparisons];
 }
 
 function getHeapSortAnimationArray(arr) {
@@ -26,6 +26,6 @@ function heapSort(array, animations) {
 
 }
 
-function animate(res, arrayBars, completedAnimations, ANIMATION_SPEED_MS) {
+function animate(res, arrayBars, completedAnimations, ANIMATION_SPEED_MS, comparisons) {
 
 }

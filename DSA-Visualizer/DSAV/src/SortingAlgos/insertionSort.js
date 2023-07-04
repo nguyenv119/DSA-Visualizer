@@ -8,10 +8,10 @@ const SMALLER_COLOR = "#50af50";
 const LARGER_COLOR = "#f44336";
 
 /** The insertionSort function we are exporting with the animation array */
-export function insertionSortExp(array, arrayBars, ANIMATION_SPEED_MS) {
+export function insertionSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, updateComparisons) {
     resetAllBarColors(arrayBars, PRIMARY_COLOR);        
     const [res, arr] = getInsertionSortAnimationArray(array.slice());
-    animate(res, arrayBars, 0, ANIMATION_SPEED_MS);
+    animate(res, arrayBars, 0, ANIMATION_SPEED_MS, comparisons, updateComparisons);
     return [res, arr];
 }
 
@@ -64,7 +64,7 @@ function insertionSort(array, animations) {
 }
 
 /** Animates insertionSort */
-function animate(res, arrayBars, completedAnimations, ANIMATION_SPEED_MS) {
+function animate(res, arrayBars, completedAnimations, ANIMATION_SPEED_MS, comparisons, updateComparisons) {
     for (let i = 0; i < res.length; i++) {
         const stage = i % 4;
 
@@ -75,6 +75,8 @@ function animate(res, arrayBars, completedAnimations, ANIMATION_SPEED_MS) {
             setTimeout(() => {
                 smallStyle.backgroundColor = SECONDARY_COLOR;
                 largeStyle.backgroundColor = SECONDARY_COLOR;
+                updateComparisons(comparisons + 1)
+                comparisons++;
                 completedAnimations++;
               }, (i) * ANIMATION_SPEED_MS);
         }

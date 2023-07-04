@@ -81,6 +81,7 @@ export default class SortingVisualizer extends React.Component {
                     100 : ANIMATION_SPEED_MS === 2 ?
                         500 : ANIMATION_SPEED_MS === 0 ?
                             1000 : 3000;
+        // const comparisons = 0;
         
         return [array, arrayBars, speed];
     }
@@ -125,8 +126,7 @@ export default class SortingVisualizer extends React.Component {
          * If we didnt have setState, we wouldnt
          * update the array we created
          */
-        this.setState({ array }, () => {
-            
+        this.setState({ comparisons: 0, array }, () => {
             /* 
             ? Resets the color of array back to PRIMARY, and determines width and length */            
             const arrayBars = document.getElementsByClassName("arrayBar");
@@ -144,7 +144,9 @@ export default class SortingVisualizer extends React.Component {
      * if it were not replaced with the sorted array */ 
     bubbleSort() {
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
-        let [res, arr] = bubbleSortExp(array, arrayBars, ANIMATION_SPEED_MS);
+        let comparisons = 0;
+        let [res, arr] = bubbleSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, this.updateComparisons)
+        
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingInProgress: false});
@@ -153,7 +155,8 @@ export default class SortingVisualizer extends React.Component {
 
     selectionSort() {
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
-        let [res, arr] = selectionSortExp(array, arrayBars, ANIMATION_SPEED_MS);
+        let comparisons = 0;
+        let [res, arr] = selectionSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, this.updateComparisons);
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingInProgress: false});
@@ -162,7 +165,8 @@ export default class SortingVisualizer extends React.Component {
 
     insertionSort() {
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
-        let [res, arr] = insertionSortExp(array, arrayBars, ANIMATION_SPEED_MS);
+        let comparisons = 0;
+        let [res, arr] = insertionSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, this.updateComparisons);
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingInProgress: false});
@@ -171,7 +175,8 @@ export default class SortingVisualizer extends React.Component {
     
     mergeSort() {
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
-        let [res, arr] = mergeSortExp(array, arrayBars, ANIMATION_SPEED_MS);
+        let comparisons = 0;
+        let [res, arr] = mergeSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, this.updateComparisons);
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingInProgress: false});
@@ -180,7 +185,8 @@ export default class SortingVisualizer extends React.Component {
 
     heapSort() {
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
-        let [res, arr] = heapSortExp(array, arrayBars, ANIMATION_SPEED_MS);
+        let comparisons = 0;
+        let [res, arr] = heapSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, this.updateComparisons);
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingInProgress: false});
@@ -211,6 +217,15 @@ export default class SortingVisualizer extends React.Component {
     buttonDown = (buttonName) => {
         this.setState({ activeButton: buttonName });
     };
+
+    /* 
+    ? Callback function to update comparisons. We have to pass in the function, 
+    ? not just the varibale comparisons, because it will create a local copy of comparisons
+    ? in the sorting JS file */
+    updateComparisons = (newComparisons) => {
+        this.setState({ comparisons: newComparisons });
+    };
+
 
     /* 
     ? Renders components UI */
@@ -301,9 +316,9 @@ export default class SortingVisualizer extends React.Component {
                                 ></input>
                             </div>
                         </div>
-                        <div className="btn-3d regular colorful speed">
+                        <button className="btn-3d regular colorful speed">
                             Speed
-                        </div>
+                        </button>
                         <div className="scrollableRangeContainer">
                             <label for="customRange4" className="form-label"></label>
                             <div className="scrollableRange">
@@ -319,12 +334,12 @@ export default class SortingVisualizer extends React.Component {
                                 ></input>
                             </div>
                         </div>
-                        <div className="colorful btn-3d regular length">
+                        <button className="btn-3d colorful regular length">
                             Array Length
-                        </div>
-                        <div className="btn-3d regular comparisons">
-                            {comparisons} Comparisions
-                        </div>
+                        </button>
+                        <button className="btn-3d regular comparisons"> 
+                        Comparisions: {comparisons}                                
+                        </button>
                     </div>
                 </div>
                 <div className="arrayBars">

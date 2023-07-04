@@ -8,6 +8,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --gradcolor1: #ec0000;
+  --gradcolor2: #cd24ff;
+  --gradcolor3: #4600a6;
 }
 
 body {
@@ -41,21 +44,15 @@ button[class*="btn"] {border: 1;}
   border-radius: 8px;
   border: 1px solid transparent;
 }
+
 .btn-3d.regular:hover {
   border-color: #be64ff;
   cursor: pointer;
 }
 
-/* .btn-3d:active {
-	top: 9px;
-  background: linear-gradient(253deg, #ec0000, #cd24ff, #4600a6);
-  background-size: 600% 600%;
-  animation: AnimationName 7s ease infinite;
-} */
-
 .btn-3d.regular.down {
 	top: 9px;
-  background: linear-gradient(253deg, #ec0000, #cd24ff, #4600a6);
+  background: linear-gradient(253deg, var(--gradcolor1), var(--gradcolor2), var(--gradcolor3));
   background-size: 600% 600%;
   animation: AnimationName 7s ease infinite;
   box-shadow: 0 0 0 1px #1a1a1a inset,
@@ -67,14 +64,14 @@ button[class*="btn"] {border: 1;}
 
 .btn-3d.regular:active {
   top: 9px;
-  background: linear-gradient(253deg, #ec0000, #cd24ff, #4600a6);
+  background: linear-gradient(253deg, var(--gradcolor1), var(--gradcolor2), var(--gradcolor3));
   background-size: 600% 600%;
   animation: AnimationName 7s ease infinite;
 }
 
 /* 3D button colors */
 .btn-3d.regular {
-  margin:20px 30px 0px 0px;
+  margin:45px 30px 0px 0px;
 	background-color: #1a1a1a;
 	box-shadow: 0 0 0 1px #1a1a1a inset,
         0 0 0 2px rgba(255,255,255,0.15) inset,
@@ -82,24 +79,15 @@ button[class*="btn"] {border: 1;}
         0 8px 0 1px rgba(0,0,0,0.4),
 				0 8px 8px 1px rgba(51, 26, 26, 0.5);
 }
+
 .btn-3d.regular:active {
 	box-shadow: 0 0 0 1px #1a1a1a inset,
 				0 0 0 2px rgba(255,255,255,0.15) inset,
 				0 0 0 1px rgba(0,0,0,0.4);
 }
-.btn-3d.regular.colorful {
-  margin: 0px 300px 0px 0;
-}
 
-.btn-3d.regular.comparisons {
-  margin:0px 0px 0px 0px;
-  transform: translateX(-160px);
-	background-color: #1a1a1a;
-	box-shadow: 0 0 0 1px #1a1a1a inset,
-        0 0 0 2px rgba(255,255,255,0.15) inset,
-        0 8px 0 0 #1a1a1a,
-        0 8px 0 1px rgba(0,0,0,0.4),
-				0 8px 8px 1px rgba(51, 26, 26, 0.5);
+.btn-3d.regular.colorful {
+  margin: 0px 300px 0px 0px;
 }
 
 .colorful {
@@ -112,10 +100,11 @@ button[class*="btn"] {border: 1;}
   transition: border-color 0.25s;
   color: white;
   /** Animations */
-  background: linear-gradient(253deg, #ec0000, #cd24ff, #4600a6);
+  background: linear-gradient(253deg, var(--gradcolor1), var(--gradcolor2), var(--gradcolor3));
   background-size: 600% 600%;
   animation: AnimationName 7s ease infinite;
   margin: 3px 100px 0 0; 
+  pointer-events: none;
 }
 
 .arrayContainer {
@@ -144,7 +133,7 @@ button[class*="btn"] {border: 1;}
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin: -55px 18px 20px 0px;
+  margin: -75px 18px 20px 120px;
 }
 
 .buttonGroup {
@@ -165,7 +154,7 @@ button[class*="btn"] {border: 1;}
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  margin: -25px 0px 35px 80px;
+  margin: -35px 0px 35px 240px;
   font-size: 15px;
 }
 
@@ -182,6 +171,13 @@ button[class*="btn"] {border: 1;}
 
 .btn-3d.regular.colorful.speed {
   margin: 0 60px 0 0;
+}
+
+.btn-3d.regular.comparisons {
+  margin: -3px 0px 0px 0px;
+  transform: translateX(-220px);
+  pointer-events: none;
+  width: 200px;
 }
 
 @keyframes AnimationName {
