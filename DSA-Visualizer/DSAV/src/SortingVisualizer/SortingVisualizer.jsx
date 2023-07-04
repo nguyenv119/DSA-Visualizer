@@ -70,7 +70,6 @@ export default class SortingVisualizer extends React.Component {
     /* 
     ? Create properties before sorting: arrayBars, array, and speed*/
     makeProps() {
-
         this.setState({ buttonsDisabled: true, isSorting: true, sortingInProgress: true });
         const arrayBars = document.getElementsByClassName("arrayBar");
         const { array, ANIMATION_SPEED_MS } = this.state;
