@@ -112,7 +112,7 @@ button[class*="btn"] {border: 1;}
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 20px 0px 0 20px;
+  margin: -20px 0px 0 20px;
 }
 
 .arrayBar {

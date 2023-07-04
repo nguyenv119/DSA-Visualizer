@@ -4,8 +4,10 @@
                                     /* 
                                     TODO:
                                     * ? : formatting
+                                    ? Change comparisons to when the bars change from SECONDARY to green/red/yellow: more accurate representation of comparison
+                                    ? Progress bar corresponding to the completed animations? 
                                     ? Pop ups/down thing to show code while its running, explain runtime
-                                    ? need to do heapSort
+                                    ? need to do heapSort: just make 2 different heapifyDowns with different animation arrays for heapSort and maxHeap
                                     */
 
 
@@ -144,52 +146,53 @@ export default class SortingVisualizer extends React.Component {
     bubbleSort() {
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
         let comparisons = 0;
-        let [res, arr] = bubbleSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, this.updateComparisons)
+        let [animations, arr] = bubbleSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, this.updateComparisons)
         
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingInProgress: false});
-        }, (res.length) * ANIMATION_SPEED_MS);
+        }, (animations.length) * ANIMATION_SPEED_MS);
     }
 
     selectionSort() {
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
         let comparisons = 0;
-        let [res, arr] = selectionSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, this.updateComparisons);
+        let [animations, arr] = selectionSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, this.updateComparisons);
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingInProgress: false});
-        }, (res.length) * ANIMATION_SPEED_MS);
+        }, (animations.length) * ANIMATION_SPEED_MS);
     }
 
     insertionSort() {
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
         let comparisons = 0;
-        let [res, arr] = insertionSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, this.updateComparisons);
+        let [animations, arr] = insertionSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, this.updateComparisons);
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingInProgress: false});
-        }, (res.length) * ANIMATION_SPEED_MS);
+        }, (animations.length) * ANIMATION_SPEED_MS);
     }
     
     mergeSort() {
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
         let comparisons = 0;
-        let [res, arr] = mergeSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, this.updateComparisons);
+        let [animations, arr] = mergeSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, this.updateComparisons);
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingInProgress: false});
-        }, (res.length * 1.15) * ANIMATION_SPEED_MS);
+        }, (animations.length * 1.15) * ANIMATION_SPEED_MS);
     }
 
     heapSort() {
         let [array, arrayBars, ANIMATION_SPEED_MS] = this.makeProps();
         let comparisons = 0;
-        let [res, arr] = heapSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, this.updateComparisons);
+        let [maxHeapAnimations, heapSortAnimations, arr] = heapSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, this.updateComparisons);
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingInProgress: false});
-        }, (res.length) * ANIMATION_SPEED_MS);
+        }, ANIMATION_SPEED_MS);
+        // (maxHeapAnimations.length + heapSortAnimations.length) * 
     }
     
     /* 

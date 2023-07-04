@@ -32,7 +32,7 @@ function getBubbleSortAnimationArray(arr) {
     return [animations, arr];
 }
 
-/** Actual bubbleSort function 
+/* Actual bubbleSort function 
  * 0: comparing 2 INIDCES: SECONDARYCOLOR
  * 1: Determine which color is larger/smaller -> green and red
  * 2: filler (timing purposes), swap bars
