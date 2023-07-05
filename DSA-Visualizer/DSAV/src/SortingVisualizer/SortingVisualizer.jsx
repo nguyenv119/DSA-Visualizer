@@ -82,7 +82,6 @@ export default class SortingVisualizer extends React.Component {
                     100 : ANIMATION_SPEED_MS === 2 ?
                         500 : ANIMATION_SPEED_MS === 0 ?
                             1000 : 3000;
-        // const comparisons = 0;
         
         return [array, arrayBars, speed];
     }
@@ -191,8 +190,7 @@ export default class SortingVisualizer extends React.Component {
 
         setTimeout(() => {
             this.setState({ array: arr, buttonsDisabled: false, isSorting: false, sortingInProgress: false});
-        }, ANIMATION_SPEED_MS);
-        // (maxHeapAnimations.length + heapSortAnimations.length) * 
+        }, (maxHeapAnimations.length + heapSortAnimations.length) * ANIMATION_SPEED_MS);
     }
     
     /* 
