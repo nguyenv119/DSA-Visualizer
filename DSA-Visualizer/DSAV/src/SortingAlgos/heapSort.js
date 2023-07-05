@@ -3,7 +3,6 @@ import {    PRIMARY_COLOR,
             SECONDARY_COLOR,
             LARGER_COLOR,
             SMALLER_COLOR,
-            SAMESIZE_COLOR,
             DONE_COLOR } from "../SortingVisualizer/SortingVisualizer";
 
 const NO_SWITCH_COLOR = "#9706ff";
@@ -14,6 +13,7 @@ const NO_SWITCH_COLOR = "#9706ff";
 ! but we have different animations 
 */
 export function heapSortExp(array, arrayBars, ANIMATION_SPEED_MS, comparisons, updateComparisons) {
+    resetAllBarColors(arrayBars, PRIMARY_COLOR);     
     const [maxHeapAnimations, heapSortAnimations, arr] = getHeapSortAnimationArray(array.slice());
     let newCompare = animateMaxHeap(maxHeapAnimations, arrayBars, 0, ANIMATION_SPEED_MS, comparisons, updateComparisons);
     animateHeapSort(heapSortAnimations, maxHeapAnimations, arrayBars, 0, ANIMATION_SPEED_MS, newCompare, updateComparisons);
@@ -79,12 +79,23 @@ function heapifyDownMax(arr, idx, heapSize, maxHeapAnimations) {
 /*
 * HeapifyDown for sorting */
 function heapifyDownSort(arr, idx, heapSize, heapSortAnimations, swapEnds) {
-    if (idx >= Math.floor(heapSize / 2)) return;
-    
-    let left = idx * 2 + 1;
-    let right = idx * 2 + 2 < heapSize ? idx * 2 + 2 : null;
+
     let largest;
 
+    /** Final Swapping time */
+    if (heapSize === 1) {
+        heapSortAnimations.push([0, heapSize]);
+        heapSortAnimations.push([]);
+        heapSortAnimations.push([idx]);
+        largest = idx;
+        heapSortAnimations.push([largest]);
+        heapSortAnimations.push([largest, largest, arr[largest], arr[largest]]);
+        return;
+    }
+    if (idx >= Math.floor(heapSize / 2)) return;
+
+    let left = idx * 2 + 1;
+    let right = idx * 2 + 2 < heapSize ? idx * 2 + 2 : null;
     /** Need to swap ends */
     if (swapEnds) {
         /** Highlight ends */
@@ -111,10 +122,10 @@ function heapifyDownSort(arr, idx, heapSize, heapSortAnimations, swapEnds) {
         if (largest === left) heapSortAnimations.push([largest, idx]);
         else heapSortAnimations.push([largest, left])
     }
-
     heapSortAnimations.push([largest, idx, arr[largest], arr[idx]]);
+
     
-    if (arr[idx] < arr[largest]) {
+    if (idx !== largest) {
         [arr[idx], arr[largest]] = [arr[largest], arr[idx]];
         /** Since we don't need to swapEnds anymore */
         heapifyDownSort(arr, largest, heapSize, heapSortAnimations, false);
@@ -124,15 +135,13 @@ function heapifyDownSort(arr, idx, heapSize, heapSortAnimations, swapEnds) {
 /*
 * The actual heapSort function */
 function heapSort(array, maxHeapAnimations, heapSortAnimations) {
-    console.log(`${array}`);
     buildMaxHeap(array, maxHeapAnimations);
-    console.log(`${array}`);
     let heapSize = array.length - 1; 
-    for (let i = heapSize; i > 1; i--) {
+    for (let i = heapSize; i >= 1; i--) {
         [array[0], array[i]] = [array[i], array[0]];
         /** Initially pass in true, that we need to swap ends */
-        heapifyDownSort(array, 0, heapSize, heapSortAnimations, true);
         heapSize--;
+        heapifyDownSort(array, 0, heapSize + 1, heapSortAnimations, true);
     }
     console.log(`${array}`);
 }
@@ -230,7 +239,6 @@ function animateHeapSort(heapSortAnimations, maxHeapAnimations, arrayBars, compl
             if (heapSortAnimations[i].length === 0) {
                 setTimeout(() => {
                     completedAnimations++;
-                    console.log(`Stage: ${i} No Switch Ends`);
                 }, (i + maxHeapAnimations.length) * ANIMATION_SPEED_MS)
             }
             else {
@@ -242,7 +250,6 @@ function animateHeapSort(heapSortAnimations, maxHeapAnimations, arrayBars, compl
                 setTimeout(() => {
                     [beginningStyle.backgroundColor, endStyle.backgroundColor] = [SECONDARY_COLOR, SECONDARY_COLOR];
                     completedAnimations++;
-                    console.log(`Stage: ${i} Switch Ends`);
                 }, (i + maxHeapAnimations.length) * ANIMATION_SPEED_MS);
             }
         }
@@ -261,11 +268,7 @@ function animateHeapSort(heapSortAnimations, maxHeapAnimations, arrayBars, compl
                     endStyle.backgroundColor = DONE_COLOR;
                     updateComparisons(comparisons + 1);
                     comparisons++
-                    console.log(`Stage: ${i}`);
                 }, (i + maxHeapAnimations.length) * ANIMATION_SPEED_MS);
-                // setTimeout(() => {
-                //     endStyle.backgroundColor = PRIMARY_COLOR;
-                // }, (i + maxHeapAnimations.length + 1) * ANIMATION_SPEED_MS);
             }
             completedAnimations++;
         }
@@ -275,7 +278,6 @@ function animateHeapSort(heapSortAnimations, maxHeapAnimations, arrayBars, compl
                     arrayBars[heapSortAnimations[i][j]].style.backgroundColor = SECONDARY_COLOR;
                 }
                 completedAnimations++;
-                console.log(`Stage: ${i}`);
             }, (i + maxHeapAnimations.length) * ANIMATION_SPEED_MS);
         }
         else if (stage === 3) {
@@ -283,14 +285,17 @@ function animateHeapSort(heapSortAnimations, maxHeapAnimations, arrayBars, compl
                 for (let j = 0; j < heapSortAnimations[i].length; j++) {
                     arrayBars[heapSortAnimations[i][j]].style.backgroundColor = SMALLER_COLOR;
                 }
+                if (heapSortAnimations[i].length !== 1) {
+                    updateComparisons(comparisons + 1);
+                    comparisons++
+                }
                 arrayBars[heapSortAnimations[i][0]].style.backgroundColor = LARGER_COLOR;
-                updateComparisons(comparisons + 1);
-                comparisons++
                 completedAnimations++;
-                console.log(`Stage: ${i}`);
             }, (i + maxHeapAnimations.length) * ANIMATION_SPEED_MS);
         }
         else {
+
+            /** Problem is here */
             const [largestIdx, originalIdx, largestVal, originalVal] = heapSortAnimations[i];
             const largerStyle = arrayBars[largestIdx].style;
             const originalStyle = arrayBars[originalIdx].style;
@@ -308,17 +313,15 @@ function animateHeapSort(heapSortAnimations, maxHeapAnimations, arrayBars, compl
                     }
                 }
                 completedAnimations++;
-                console.log(`Stage: ${i}`);
-                greenify(completedAnimations, heapSortAnimations, arrayBars);
             }, (i + maxHeapAnimations.length) * ANIMATION_SPEED_MS);
-
+            
             /*
             ? Switch back PRIMARY */
             setTimeout(() => {
                 for (let j = 0; j < heapSortAnimations[i - 1].length; j++) {
                     arrayBars[heapSortAnimations[i - 1][j]].style.backgroundColor = PRIMARY_COLOR;
                 }
-                console.log(`Stage: ${i}`);
+                greenify(completedAnimations, heapSortAnimations, arrayBars);
             }, (i + maxHeapAnimations.length + 1) * ANIMATION_SPEED_MS);
         }
     }

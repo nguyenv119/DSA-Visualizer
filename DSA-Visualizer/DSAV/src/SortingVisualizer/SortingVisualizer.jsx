@@ -7,7 +7,6 @@
                                     ? Change comparisons to when the bars change from SECONDARY to green/red/yellow: more accurate representation of comparison
                                     ? Progress bar corresponding to the completed animations? 
                                     ? Pop ups/down thing to show code while its running, explain runtime
-                                    ? need to do heapSort: just make 2 different heapifyDowns with different animation arrays for heapSort and maxHeap
                                     */
 
 
@@ -52,8 +51,8 @@ export default class SortingVisualizer extends React.Component {
             sortingAlgorithm: null,
             isSorting: false,
             buttonsDisabled: false,
-            ANIMATION_SPEED_MS: 6, 
-            BARS: 10, 
+            ANIMATION_SPEED_MS: 0, 
+            BARS: 0, 
             sortingInProgress: false, 
             activeButton: null,
             comparisons: 0
