@@ -124,7 +124,7 @@ button[class*="btn"] {border: 1;}
 .arrayBars {
   display: flex;
   justify-content: center;
-  margin: 0 5px;
+  margin: 0 15px 0 0;
   height: 600px;
 }
 

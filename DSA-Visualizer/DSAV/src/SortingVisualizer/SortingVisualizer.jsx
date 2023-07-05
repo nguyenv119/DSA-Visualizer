@@ -51,8 +51,8 @@ export default class SortingVisualizer extends React.Component {
             sortingAlgorithm: null,
             isSorting: false,
             buttonsDisabled: false,
-            ANIMATION_SPEED_MS: 0, 
-            BARS: 0, 
+            ANIMATION_SPEED_MS: 6, 
+            BARS: 10, 
             sortingInProgress: false, 
             activeButton: null,
             comparisons: 0
@@ -130,7 +130,7 @@ export default class SortingVisualizer extends React.Component {
             ? Resets the color of array back to PRIMARY, and determines width and length */            
             const arrayBars = document.getElementsByClassName("arrayBar");
             for (let i = 0; i < arrayBars.length; i++) {
-                arrayBars[i].style.width = `${500 / length}px`;
+                arrayBars[i].style.width = `${810 / length}px`;
                 arrayBars[i].style.backgroundColor = PRIMARY_COLOR;
             }
         });
