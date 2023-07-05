@@ -83,8 +83,6 @@ function animate(res, arrayBars, completedAnimations, toBeSortedIndex, ANIMATION
             setTimeout(() => {
                 barOneStyle.backgroundColor = SECONDARY_COLOR;
                 barTwoStyle.backgroundColor = SECONDARY_COLOR;
-                updateComparisons(comparisons + 1)
-                comparisons++;
                 completedAnimations++;
               }, (i) * ANIMATION_SPEED_MS);
         }
@@ -99,6 +97,8 @@ function animate(res, arrayBars, completedAnimations, toBeSortedIndex, ANIMATION
                 setTimeout(() => {
                     barOneStyle.backgroundColor = SAMESIZE_COLOR;
                     barTwoStyle.backgroundColor = SAMESIZE_COLOR;
+                    updateComparisons(comparisons + 1)
+                    comparisons++;
                 }, (i) * ANIMATION_SPEED_MS);   
             }
             else {
@@ -111,8 +111,11 @@ function animate(res, arrayBars, completedAnimations, toBeSortedIndex, ANIMATION
                 setTimeout(() => {
                     barOneStyle.backgroundColor = SMALLER_COLOR;
                     barTwoStyle.backgroundColor = LARGER_COLOR;
+                    updateComparisons(comparisons + 1)
+                    comparisons++;
                 }, (i) * ANIMATION_SPEED_MS);   
             }
+            
             completedAnimations++;
             greenify(completedAnimations, res, arrayBars);
         }

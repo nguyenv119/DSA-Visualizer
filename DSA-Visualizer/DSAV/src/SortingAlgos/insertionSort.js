@@ -75,8 +75,6 @@ function animate(res, arrayBars, completedAnimations, ANIMATION_SPEED_MS, compar
             setTimeout(() => {
                 smallStyle.backgroundColor = SECONDARY_COLOR;
                 largeStyle.backgroundColor = SECONDARY_COLOR;
-                updateComparisons(comparisons + 1)
-                comparisons++;
                 completedAnimations++;
               }, (i) * ANIMATION_SPEED_MS);
         }
@@ -90,6 +88,8 @@ function animate(res, arrayBars, completedAnimations, ANIMATION_SPEED_MS, compar
                 setTimeout(() => {
                     barSmallStyle.backgroundColor = SAMESIZE_COLOR;
                     barLargerStyle.backgroundColor = SAMESIZE_COLOR;
+                    updateComparisons(comparisons + 1)
+                    comparisons++;
                 }, (i) * ANIMATION_SPEED_MS);
             }
 
@@ -97,6 +97,8 @@ function animate(res, arrayBars, completedAnimations, ANIMATION_SPEED_MS, compar
                 setTimeout(() => {
                     barSmallStyle.backgroundColor = SMALLER_COLOR;
                     barLargerStyle.backgroundColor = LARGER_COLOR;
+                    updateComparisons(comparisons + 1)
+                    comparisons++;
                 }, (i) * ANIMATION_SPEED_MS);
             }
             completedAnimations++;
